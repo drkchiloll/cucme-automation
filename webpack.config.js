@@ -1,9 +1,19 @@
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const BabiliPlugin = require("babili-webpack-plugin");
+const path = require('path'),
+		  fs = require('fs'),
+		  webpack = require('webpack'),
+			merge = require('webpack-merge'),
+			BabiliPlugin = require("babili-webpack-plugin");
 
 const { NODE_ENV } = process.env;
+let nodeModules = {};
+
+fs.readdirSync('node_modules')
+	.filter(function(x) {
+		return ['.bin'].indexOf(x) === -1 && x === 'java';
+	})
+	.forEach(function(mod) {
+		nodeModules[mod] = 'commonjs ' + mod;
+	});
 
 let dev = {
 	entry: {
@@ -24,37 +34,36 @@ let dev = {
 	},
 	devtool: 'source-map',
 	resolve: {
-		extensions: [ '.ts', '.tsx', '.js' ]
+		extensions: ['.ts', '.tsx', '.js']
 	},
 	module: {
-		rules: [
-			{ 
-				test: /\.tsx?$/,
-				loader: "ts-loader",
-				options: { transpileOnly: false } 
-			},
-			{ 
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
-			},
-			{
-				test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/,
-				loader: 'url-loader'
+		rules: [{
+			test: /\.tsx?$/,
+			loader: "ts-loader",
+			options: {
+				transpileOnly: false
 			}
-		]
-	}
+		}, {
+			test: /\.css$/,
+			use: ['style-loader', 'css-loader']
+		}, {
+			test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/,
+			loader: 'url-loader'
+		}]
+	},
+	externals: nodeModules,
 };
 
 let prod = {
 	plugins: [
 		new BabiliPlugin(),
 		new webpack.DefinePlugin({
-			"process.env": { 
-				NODE_ENV: JSON.stringify("production") 
+			"process.env": {
+				NODE_ENV: JSON.stringify("production")
 			}
 		}),
 		new webpack.LoaderOptionsPlugin({
-			minimize:true,
+			minimize: true,
 			compress: {
 				warnings: false,
 				drop_console: false,
@@ -63,5 +72,5 @@ let prod = {
 	]
 };
 
-if(NODE_ENV==='production') module.exports = merge(dev, prod);
+if(NODE_ENV === 'production') module.exports = merge(dev, prod);
 else module.exports = dev;
