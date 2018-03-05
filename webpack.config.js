@@ -1,17 +1,17 @@
 const path = require('path'),
-		  fs = require('fs'),
-		  webpack = require('webpack'),
-			merge = require('webpack-merge'),
-			BabiliPlugin = require("babili-webpack-plugin");
+	fs = require('fs'),
+	webpack = require('webpack'),
+	merge = require('webpack-merge'),
+	UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { NODE_ENV } = process.env;
 let nodeModules = {};
 
 fs.readdirSync('node_modules')
-	.filter(function(x) {
+	.filter(function (x) {
 		return ['.bin'].indexOf(x) === -1 && x === 'java';
 	})
-	.forEach(function(mod) {
+	.forEach(function (mod) {
 		nodeModules[mod] = 'commonjs ' + mod;
 	});
 
@@ -39,7 +39,7 @@ let dev = {
 	module: {
 		rules: [{
 			test: /\.tsx?$/,
-			loader: "ts-loader",
+			loader: "awesome-typescript-loader",
 			options: {
 				transpileOnly: false
 			}
@@ -56,7 +56,7 @@ let dev = {
 
 let prod = {
 	plugins: [
-		new BabiliPlugin(),
+		new UglifyJsPlugin(),
 		new webpack.DefinePlugin({
 			"process.env": {
 				NODE_ENV: JSON.stringify("production")
@@ -72,5 +72,5 @@ let prod = {
 	]
 };
 
-if(NODE_ENV === 'production') module.exports = merge(dev, prod);
+if (NODE_ENV === 'production') module.exports = merge(dev, prod);
 else module.exports = dev;
