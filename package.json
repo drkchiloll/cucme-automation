@@ -1,24 +1,22 @@
 {
   "name": "electron-react-ts-starter",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "A Starter Project for Electron/React/Typescript 2.x",
   "main": "./dist/main.bundle.js",
   "scripts": {
-    "build:dev": "node_modules/.bin/webpack --watch --progress --profile",
-    "build:dist": "NODE_ENV=production node_modules/.bin/webpack --progress --colors",
-    "build:win:dist": "webpack -p --progress --colors",
+    "clean": "cd dist && rm app.bundle.js app.bundle.js.map main.bundle.js main.bundle.js.map && cd ..",
+    "build:dev": "webpack --mode development --watch --progress --profile",
+    "build:dist": "node_modules/.bin/webpack --mode production --progress --colors && rm dist/app.bundle.js.map && rm dist/main.bundle.js.map",
     "start": "electron .",
-    "package": "node_modules/.bin/electron-packager ./ AppName --platform=darwin --arch=x64 --prune=true --ignore=src/app --ignore=node_modules/@types --ignore=node_modules/electron* --app-version=0.0.1 --icon ./resources/iconForApp.icns",
-    "clean": "cd dist && rm app.bundle.js app.bundle.js.map main.bundle.js main.bundle.js.map && cd .."
+    "package:macos": "node_modules/.bin/electron-packager ./ MyApp --platform=darwin --arch=x64 --prune=true --ignore=src/app --ignore=node_modules/@types --ignore=node_modules/electron* --app-version=1.0.0 --icon ./resources/myIcon.icns",
+    "package:win64": "electron-packager ./ MyApp --platform=win32 --arch=x64 --prune=true --ignore=src/app --ignore=node_modules/@types --ignore=node_modules/electron* --app-version=1.0.0 --icon ./resources/myIcon.ico"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^7.0.55",
-    "@types/react": "^15.0.14",
-    "@types/react-dom": "^0.14.23",
-    "awesome-typescript-loader": "^3.5.0",
+    "awesome-typescript-loader": "^5.0.0-1",
     "css-loader": "^0.26.1",
-    "electron": "^1.8.2",
+    "electron": "^1.8.4",
     "electron-packager": "^11.1.0",
     "electron-rebuild": "^1.7.3",
     "file-loader": "^0.10.1",
@@ -29,7 +27,8 @@
     "typescript": "^2.7.2",
     "uglifyjs-webpack-plugin": "^1.2.2",
     "url-loader": "^0.5.6",
-    "webpack": "^2.2.1",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
     "webpack-merge": "^3.0.0"
   }
 }
