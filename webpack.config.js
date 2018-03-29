@@ -15,62 +15,57 @@ fs.readdirSync('node_modules')
 		nodeModules[mod] = 'commonjs ' + mod;
 	});
 
-let dev = {
-	entry: {
-		main: path.join(__dirname, 'src/electron-main/main.ts'),
-		app: path.join(__dirname, 'src/app/main.tsx')
-	},
-	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: '[name].bundle.js'
-	},
-	target: 'electron',
-	node: {
-		__dirname: false,
-		console: true,
-		fs: 'empty',
-		net: 'empty',
-		tls: 'empty'
-	},
-	devtool: 'source-map',
-	resolve: {
-		extensions: ['.ts', '.tsx', '.js']
-	},
-	module: {
-		rules: [{
-			test: /\.tsx?$/,
-			loader: "awesome-typescript-loader",
-			options: {
-				transpileOnly: false
-			}
-		}, {
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader']
-		}, {
-			test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/,
-			loader: 'url-loader'
-		}]
-	},
-	externals: nodeModules,
-};
+module.exports = (env, options) => {
+	let dev = {
+		entry: {
+			main: path.join(__dirname, 'src/electron-main/main.ts'),
+			app: path.join(__dirname, 'src/app/main.tsx')
+		},
+		output: {
+			path: path.join(__dirname, 'dist'),
+			filename: '[name].bundle.js'
+		},
+		target: 'electron-main',
+		node: {
+			__dirname: false,
+			console: true,
+			fs: 'empty',
+			net: 'empty',
+			tls: 'empty'
+		},
+		devtool: 'source-map',
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js']
+		},
+		module: {
+			rules: [{
+				test: /\.tsx?$/,
+				loader: "awesome-typescript-loader",
+				options: {
+					transpileOnly: false
+				}
+			}, {
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
+			}, {
+				test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/,
+				loader: 'url-loader'
+			}]
+		},
+		externals: nodeModules
+	};
 
-let prod = {
-	plugins: [
-		new UglifyJsPlugin(),
-		new webpack.DefinePlugin({
-			"process.env": {
-				NODE_ENV: JSON.stringify("production")
-			}
-		}),
-		new webpack.LoaderOptionsPlugin({
-			minimize: true,
-			compress: {
-				warnings: false,
-				drop_console: false,
-			}
-		})
-	]
+	let prod = {
+		plugins: [
+			new webpack.LoaderOptionsPlugin({
+				minimize: true,
+				compress: {
+					warnings: false,
+					drop_console: false
+				}
+			})
+		]
+	};
+	if (options.mode === 'production') return merge(dev, prod)
+	else return dev;
 };
-
-if (NODE_ENV === 'production') module.exports = merge(dev, prod);
-else module.exports = dev;
