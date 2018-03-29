@@ -4,7 +4,7 @@ const mod = global.myModule;
 mod.init();
 
 // Import Components
-import { StateLess } from './component';
+import { StateLess } from '../component';
 
 export class App extends React.Component<any, any> {
 	render() {
