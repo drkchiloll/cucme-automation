@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { StateLess } from '../component';
+import { StateLess } from '../components';
 
 export class App extends Component<any, any> {
   render() {
