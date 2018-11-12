@@ -3,3 +3,7 @@
 dist/*.js
 *.js.map
 *.db
+*.DS_Store
+dist/lib/*
+dist/css/*
+.vscode
