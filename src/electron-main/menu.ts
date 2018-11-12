@@ -1,6 +1,7 @@
 import { app, Menu } from 'electron';
+const { NODE_ENV } = process.env;
 
-let menuTemplate:any = [{
+let menuTemplate: any = [{
   label: 'Edit',
   submenu: [{
     role: 'undo'
@@ -26,13 +27,13 @@ let menuTemplate:any = [{
   submenu: [{
     label: 'Reload',
     accelerator: 'CmdOrCtrl+R',
-    click(item:any, focusedWindow:any) {
+    click(item: any, focusedWindow: any) {
       if(focusedWindow) focusedWindow.reload()
     }
   }, {
     label: 'Toggle Developer Tools',
     accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-    click (item:any, focusedWindow:any) {
+    click(item: any, focusedWindow: any) {
       if(focusedWindow) focusedWindow.webContents.toggleDevTools()
     }
   }, {
@@ -58,9 +59,21 @@ let menuTemplate:any = [{
   role: 'help',
   submenu: [{
     label: 'Learn More',
-    click () { require('electron').shell.openExternal('http://electron.atom.io') }
+    click() { require('electron').shell.openExternal('http://electron.atom.io') }
   }]
-}]
+}];
+
+if(NODE_ENV === 'production') {
+  menuTemplate[1].submenu.splice(1, 1);
+}
+if(process.platform === 'win32') {
+  menuTemplate[menuTemplate.length - 1].submenu.push({
+    label: 'Check for Updates...',
+    click(item: any, focusedWindow: any) {
+      focusedWindow.webContents.send('update');
+    }
+  });
+}
 
 if(process.platform === 'darwin') {
   const name = app.getName()
@@ -68,6 +81,11 @@ if(process.platform === 'darwin') {
     label: name,
     submenu: [{
       role: 'about'
+    }, {
+      label: 'Check for Updates...',
+      click(item: any, focusedWindow: any) {
+        focusedWindow.webContents.send('update');
+      }
     }, {
       type: 'separator'
     }, {
@@ -90,14 +108,14 @@ if(process.platform === 'darwin') {
   // Edit menu.
   menuTemplate[1].submenu.push({
     type: 'separator'
-  },{
-    label: 'Speech',
-    submenu: [{
-      role: 'startspeaking'
-    }, {
-      role: 'stopspeaking'
-    }]
-  })
+  }, {
+      label: 'Speech',
+      submenu: [{
+        role: 'startspeaking'
+      }, {
+        role: 'stopspeaking'
+      }]
+    })
   // Window menu.
   menuTemplate[3].submenu = [{
     label: 'Close',
