@@ -1,4 +1,4 @@
-### Electron 1.6.x, ReactJS 15, Typescript 2.x.x with WebPack Starter Project
+### Electron 3, ReactJS 16, Typescript 3 with Webpack 4
 
 **Getting Started**
 
@@ -9,4 +9,4 @@
 
 ##### PROD
 1. npm run build:dist
-2. npm run package
+2. npm run package:<macos|win64>
