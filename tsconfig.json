@@ -11,6 +11,8 @@
         "declaration": false,
         "noImplicitAny": false,
         "noImplicitReturns": false,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true,
         "removeComments": true,
         "strictNullChecks": false,
         "lib": [
