@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const path = require('path'),
   fs = require('fs'),
   webpack = require('webpack'),
@@ -43,11 +44,23 @@ module.exports = (env, options) => {
         test: /\.node$/,
         use: 'node-loader'
       }]
-    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('development')
+        }
+      }),
+    ]
   };
 
   let prod = {
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production')
+        }
+      }),
       new webpack.LoaderOptionsPlugin({
         minimize: true,
         compress: {
@@ -57,6 +70,9 @@ module.exports = (env, options) => {
       })
     ]
   };
-  if (options.mode === 'production') return merge(dev, prod)
+  if (options.mode === 'production') {
+    delete dev['plugins'];
+    return merge(dev, prod);
+  }
   else return dev;
 };
