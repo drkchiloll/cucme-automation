@@ -1,2 +1,3 @@
 // Component Exports
-export { StateLess } from './StateLess';
+export { Generic } from './Generic';
+export { JsxFunc } from './JsxFunc';
