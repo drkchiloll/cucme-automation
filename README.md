@@ -1,4 +1,4 @@
-### Electron 3, ReactJS 16, Typescript 3 with Webpack 4
+### Electron 5, ReactJS 16, Typescript 3 with Webpack 4
 
 **Getting Started**
 
