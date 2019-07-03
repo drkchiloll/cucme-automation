@@ -1,9 +1,9 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const path = require('path'),
-  fs = require('fs'),
+  // fs = require('fs'),
   webpack = require('webpack'),
-  merge = require('webpack-merge'),
-  UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+  merge = require('webpack-merge');
+  // UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = (env, options) => {
   let dev = {
@@ -27,18 +27,18 @@ module.exports = (env, options) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js']
     },
+    externals: {
+      "fs": "require('fs')"
+    },
     module: {
       rules: [{
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
-        options: {
-          transpileOnly: false
-        }
+        loader: "awesome-typescript-loader"
       }, {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }, {
-        test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/,
+        test: /.woff$|.woff2$|.ttf$|.eot$|.svx` x g$/,
         loader: 'url-loader'
       }, {
         test: /\.node$/,

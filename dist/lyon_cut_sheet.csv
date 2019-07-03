@@ -1,0 +1,99 @@
+mac,name,label,dn,type,description,username,password,pickupCall,pickupGroup,corList
+E8BA.7006.919F,,,,,,,,,,
+0026.0B5D.AD08,,,,,,,,,,
+0026.0B5D.AB4E,,,,,,,,,,
+F025.7278.F680,,,,,,,,,,
+0023.339B.F428,Wesley Beal,7174 - Wesley Beal,7174,7945,8703077174,wbeal,password,any-group,,employee
+001E.F728.164D,Cori Gabbard,7191 - Cori Gabbard,7191,7945,8703077191,cgabbard,password,any-group,,employee
+88F0.7789.3890,Library Desk,7205 – Library,7205,7945,8703077205,,,any-group,,employee
+0023.339B.F0E3,Robert Krapohl,7206 - Robert Krapohl,7206,7945,8703077206,rkrapohl,password,any-group,,employee
+0026.0B5D.A919,Radek Szulga,7209 - Radek Szulga,7209,7945,8703077209,rszulga,password,any-group,,employee
+68BD.ABA4.CBB2,Brian D'Haeseleer,7210 - Brian D'Haeseleer,7210,7945,8703077210,bdhaeseleer,password,any-group,,employee
+0026.0B5D.AB70,Burt Hollandsworth,7212 - Burt Hollandsworth,7212,7945,8703077212,bhollandsworth,password,any-group,,employee
+F025.7279.1C78,Mary Jones,7214 - Mary Jones,7214,7945,8703077214,mjones,password,any-group,,employee
+0026.0B5D.AC54,Allyn Dodd,7216 - Allyn Dodd,7216,7945,8703077216,adodd,password,any-group,,employee
+C40A.CBE0.213E,James Martell,7217 - James Martell,7217,7945,8703077217,jmartell,password,any-group,,employee
+ECC8.82B1.298E,Irosha Nawarathne,7218 - Irosha Nawarathne,7218,7945,8703077218,inawarathne,password,any-group,,employee
+A418.758B.E2C8,Brenda Lindsey,7232 - Brenda Lindsey,7232,7945,8703077232,blindsey,password,any-group,,employee
+88F0.7788.8AFE,John Herda,7236 - John Herda,7236,7945,8703077236,jherda,password,any-group,,employee
+0023.339B.F0D4,Robert Miller,7240 - Robert Miller,7240,7945,8703077240,rmiller,password,any-group,,employee
+0026.0B5D.AC46,Donna Glascock,7253 - Donna Glascock,7253,7945,8703077253,dglascock,password,any-group,,employee
+88F0.7789.3C92,Michael Oriatti,7259 - Michael Oriatti,7259,7945,8703077259,moriatti,password,any-group,,employee
+F025.7279.1B93,Russel Stinson,7261 - Russel Stinson,7261,7945,8703077261,rstinson,password,any-group,,employee
+0026.0B5D.A91E,Jaeyun Sung,7262 - Jaeyun Sung,7262,7945,8703077262,jsung,password,any-group,,employee
+0026.0B5D.AB0D,David Thomas,7269 - David Thomas,7269,7945,8703077269,dthomas,password,any-group,,employee
+0025.84A1.A63D,Dave Sonnier,7270 - Dave Sonnier,7270,7945,8703077270,dsonnier,password,any-group,,employee
+88F0.7789.3BF5,Renda Acklin,7272 - Renda Acklin,7272,7945,8703077272,racklin,password,any-group,,employee
+2C3F.38C9.A471,Tharanga Wijetunge,7274 - Tharanga Wijetunge,7274,7945,8703077274,twijetunge,password,any-group,,employee
+88F0.7789.38F7,Barry Gehm,7282 - Barry Gehm,7282,7945,8703077282,bgehm,password,any-group,,employee
+0025.84A0.F6E6,Nikki Yonts,7285 - Nikki Yonts,7285,7945,8703077285,nyonts,password,any-group,,employee
+24B6.5745.A4EE,Jeremy Chapman,7302 - Jeremy Chapman,7302,7945,8703077302,jchapman,password,any-group,,employee
+0026.0B5D.AC93,Kurt Grafton,7315 - Kurt Grafton,7315,7945,8703077315,kgrafton,password,any-group,,employee
+0026.0B5D.A924,Mahbubul Kabir,7333 - Mahbubul Kabir,7333,7945,8703077333,mkabir,password,any-group,,employee
+D824.BDBA.9F63,Dustyn Bork,7336 - Dustyn Bork,7336,7945,8703077336,dbork,password,any-group,,employee
+0023.339B.7847,Terrell Tebbetts,7342 - Terrell Tebbetts,7342,7945,8703077342,ttebbetts,password,any-group,,employee
+C40A.CBE0.20C4,Bradley Gitz,7343 - Bradley Gitz,7343,7945,8703077343,bgitz,password,any-group,,employee
+B4A4.E3D6.3033,Mark Wallace,7344 - Mark Wallace,7344,7945,8703077344,mwallace,password,any-group,,employee
+20BB.C093.B7EB,Scott Roulier,7345 - Scott Roulier,7345,7945,8703077345,sroulier,password,any-group,,employee
+0026.0B5D.AC90,Ian Campbell,7350 - Ian Campbell,7350,7945,8703077350,icampbell,password,any-group,,employee
+F025.7273.0FF7,Paul Bube,7351 - Paul Bube,7351,7945,8703077351,pbube,password,any-group,,employee
+0026.0B5D.AB76,Ronald Boling,7354 - Ronald Boling,7354,7945,8703077354,rboling,password,any-group,,employee
+88F0.7789.3A96,Cassia Oliveira,7355 - Cassia Oliveira,7355,7945,8703077355,coliveira,password,any-group,,employee
+F025.7279.8749, ,7359 – Visiting Chaplain,7359,7945,8703077359,,password,any-group,,employee
+88F0.7789.3A50,Helen Robbins,7367 - Helen Robbins,7367,7945,8703077367,hrobbins,password,any-group,,employee
+88F0.7789.3CCE,Laura Grafton,7374 - Laura Grafton,7374,7945,8703077374,lgrafton,password,any-group,,employee
+001E.F728.0EC4,Christopher Schwanke,7379 - Christopher Schwanke,7379,7945,8703077379,cschwanke,password,any-group,,employee
+F41F.C267.0D1B,Leigh King,7392 - Leigh King,7392,7945,8703077392,lking,password,any-group,,employee
+E8BA.7006.919F,Edward Tenace,7397 - Edward Tenace,7397,7945,8703077397,etenace,password,any-group,,employee
+88F0.7788.7986,Sandy Beeser,7426 - Sandy Beeser,7426,7945,8703077426,sbeeser,password,any-group,,employee
+0026.0B5D.AD62,Timothy Bennett,7429 - Timothy Bennett,7429,7945,8703077429,tbennett,password,any-group,,employee
+0026.0B5D.A923,Camille Beary,7444 - Camille Beary,7444,7945,8703077444,cbeary,password,any-group,,employee
+0023.339B.7F4A,Monica Rodriguez,7448 - Monica Rodriguez,7448,7945,8703077448,mrodriguez,password,any-group,,employee
+88F0.7789.3B9D,Brett Ray,7467 - Brett Ray,7467,7945,8703077467,bray,password,any-group,,employee
+0026.0B5C.7CDE,Frank Winfrey,7483 - Frank Winfrey,7483,7945,8703077483,fwinfrey,password,any-group,,employee
+F025.7279.1E15,Jennifer Daniels,7497 - Jennifer Daniels,7497,7945,8703077497,jdaniels,password,any-group,,employee
+88F0.7789.3BB6, ,7500 – Young House,7500,7945,8703077500,,password,any-group,,employee
+0026.0B5D.ACBB,Kathy Whittenton,7505 - Kathy Whittenton,7505,7945,8703077505,kwhittenton,password,any-group,,employee
+0026.0B5D.ADEA,Rob Austin,7509 - Rob Austin,7509,7945,8703077509,raustin,password,any-group,,employee
+F025.7279.14D1,Fonzie Geary,7511 - Fonzie Geary,7511,7945,8703077511,fgeary,password,any-group,,employee
+A8B1.D41F.6E75,Laura Crouch,7521 - Laura Crouch,7521,7945,8703077521,lcrouch,password,any-group,,employee
+88F0.7789.385B,Martha Beck,7533 - Martha Beck,7533,7945,8703077533,mbeck,password,any-group,,employee
+0026.0B5D.AC85,Stuart Hutton,7560 - Stuart Hutton,7560,7945,8703077560,shutton,password,any-group,,employee
+E8BA.7006.9173, ,7561 – Maint Office,7561,7945,8703077561,,password,any-group,,employee
+0026.0B5D.ABDC,Angela James,7273 - Angela James,7273,7945,8703077273,ajames,password,any-group,,employee
+88F0.7789.3BB3,Dan Rutledge,7239 - Dan Rutledge,7239,7945,8703077239,drutledge,password,any-group,,employee
+0023.339B.80E2,Tony Davis,7254 - Tony Davis,7254,7945,8703077254,tdavis,password,any-group,,employee
+0026.0B5D.ACE8,Mary Saczawa,7346 - Mary Saczawa,7346,7945,8703077346,msaczawa,password,any-group,,employee
+0025.84A1.BD4C,Maggie Gayle,7352 - Maggie Gayle,7352,7945,8703077352,mgayle,password,any-group,,employee
+E8BA.7006.9146,Qualls Bob,7526 - Qualls Bob,7526,7945,8703077526,qbob,password,any-group,,employee
+1CAA.07E3.D119,Suzanne Cunningham,7373 - Suzanne Cunningham,7373,7945,8703077373,scunningham,password,any-group,,employee
+0027.0D3F.0827,Travis Lauterbach,7539 - Travis Lauterbach,7539,7945,8703077539,tlauterbach,password,any-group,,employee
+C40A.CBE0.243E,Board Bulletin,7481 - Board Bulletin,7481,7945,8703077481,bbulletin,password,any-group,,employee
+20BB.C093.CE39,Info Hotline Sports,7251 - Info Hotline Sports,7251,7945,8703077251,,password,any-group,,employee
+0026.0B5D.ABFF,Study Admissions Work,7316 - Study Admissions Work,7316,7945,8703077316,,password,any-group,,employee
+0026.0B5C.7973,Rodney Griffin,7495 - Rodney Griffin,7495,7945,8703077495,rgriffin,password,any-group,,employee
+F025.7279.85EB,Ella Wilhoit,7532 - Ella Wilhoit,7532,7945,8703077532,ewilhoit,password,any-group,,employee
+0026.0B5D.AD90,Brian Hunt,7539 - Brian Hunt,7539,7945,8703077539,bhunt,password,any-group,,employee
+001E.138C.713B,Joey King,7030 - Joey King,7030,7945,8703077030,jking,password,any-group,,employee
+88F0.7789.3BE8,Adam Trausch,7056 - Adam Trausch,7056,7945,8703077056,atrausch,password,any-group,,employee
+88F0.7789.3857,Kim Crosby,7275 - Kim Crosby,7275,7945,8703077275,kcrosby,password,any-group,,employee
+DC7B.94F9.69B9,Activities Student,7369 - Activities Student,7369,7945,8703077369,,password,any-group,,employee
+0025.84A1.B818,Advocate Family,7200 - Advocate Family,7200,7945,8703077200,,password,any-group,,employee
+0026.0B5D.AB66,Lynn Pearson.,7201 - Lynn Pearson.,7201,7945,8703077201,lpearson,password,any-group,,employee
+DC7B.9476.68F5,Dalton Lamons,7372 - Dalton Lamons,7372,7945,8703077372,dlamons,password,any-group,,employee
+E804.62EA.8DE6,Office LEAP,7529 - Office LEAP,7529,7945,8703077529,,password,any-group,,employee
+0026.0B5D.ABC3, ,,7006,7945,8703077006,,password,any-group,,employee
+0023.339B.C960, ,,7016,7945,8703077016,,password,any-group,,employee
+F025.7279.827E,Carla Ladd,7009 - Carla Ladd,7009,7945,8703077009,cladd,password,any-group,,employee
+0023.339B.78C4,Mike Foote,7272 - Mike Foote,7272,7945,8703077272,mfoote,password,any-group,,employee
+F025.7279.8331,,,7016,7945,8703077016,,,,,
+DC7B.9476.6F7B,,,,,,,,,,
+D824.BDBA.8852,,,,,,,,,,
+A418.7529.695F,,,,,,,,,,
+C40A.CBE1.13F3,,,,,,,,,,
+F025.7279.13CF,,,,,,,,,,
+88F0.7789.3C83,,,,,,,,,,
+DC7B.9476.7258,,,,,,,,,,
+0026.0B5D.ABF9,,,,,,,,,,
+0026.0B5D.ADAC,,,,,,,,,,
+C40A.CBE1.0FD5,,,,,,,,,,
