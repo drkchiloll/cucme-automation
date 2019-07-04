@@ -62,7 +62,7 @@ export class CorDialog extends React.Component<any, any> {
         </Button>
         <ExpansionPanelDetails>
           <Grid container spacing={2}>
-            <Grid item sm={4}> 
+            <Grid item sm={3}> 
               <MaterialTable 
                 title='COR Custom'
                 columns={[
@@ -90,16 +90,16 @@ export class CorDialog extends React.Component<any, any> {
                     resolve => resolve()
                   )
                 }}
-                options={{ search: false }}
+                options={{ search: false, padding: 'dense' }}
               />
             </Grid>
             {
               lists.map((l: any, i) => {
                 return (
-                  <Grid item sm={4} xs={12} key={i}>
+                  <Grid item sm={3} xs={12} key={i}>
                     <MaterialTable
                       title={l.name.toUpperCase()}
-                      options={{ search: false }}
+                      options={{ search: false, padding: 'dense' }}
                       columns={[{
                         title: 'Members',
                         field: 'member',

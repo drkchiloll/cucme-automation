@@ -26,15 +26,11 @@ export class Api {
         Accept: 'text/xml'
       }
     })
-    let phDevices = {
-      phones: [],
-      dns: []
-    };
-    csv().fromFile(csvFile).then((csvData: any) => {
-      return Promise.reduce(csvData, (a, d, i) => {
-        if(!d.dn) {
-          return a;
-        }
+  }
+  parseCsv(input: any) {
+    return csv().fromFile(input.path)
+      .then(csvData => Promise.reduce(csvData, (a, d, i) => {
+        if(!d.dn) return a;
         let phone = {
           tag: i+1,
           mac: d.mac,
@@ -63,11 +59,7 @@ export class Api {
         };
         a['dns'].push(device);
         return a;
-      }, phDevices).then(d => {
-        this.csvData = d;
-        console.log(this.csvData);
-      })
-    })
+      }, { phones: [], dns: []}))
   }
   get() {
     const xmlD = `
@@ -197,9 +189,6 @@ interface SipDevice {
 const deviceTemplate = {
   /**
    * voice register template  2
-    feature-button 1 PickUp
-    feature-button 2 MeetMe
-    feature-button 3 DnD
     button-layout 1-2 line
     button-layout 3 blf-speed-dial
     button-layout 4-6 feature-button

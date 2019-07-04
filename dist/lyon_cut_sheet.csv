@@ -1,8 +1,8 @@
 mac,name,label,dn,type,description,username,password,pickupCall,pickupGroup,corList
-E8BA.7006.919F,,,,,,,,,,
+E8BA.7006.919F,Registrar Transcript Line,7010 – Registrar Line,7010,7945,8703077010,,,,,employee
 0026.0B5D.AD08,,,,,,,,,,
 0026.0B5D.AB4E,,,,,,,,,,
-F025.7278.F680,,,,,,,,,,
+F025.7278.F680,Rose Danek,7041 – Rose Danek,7041,7945,8703077041,rdanek,password,any-group,,employee
 0023.339B.F428,Wesley Beal,7174 - Wesley Beal,7174,7945,8703077174,wbeal,password,any-group,,employee
 001E.F728.164D,Cori Gabbard,7191 - Cori Gabbard,7191,7945,8703077191,cgabbard,password,any-group,,employee
 88F0.7789.3890,Library Desk,7205 – Library,7205,7945,8703077205,,,any-group,,employee
@@ -77,8 +77,8 @@ F025.7279.85EB,Ella Wilhoit,7532 - Ella Wilhoit,7532,7945,8703077532,ewilhoit,pa
 001E.138C.713B,Joey King,7030 - Joey King,7030,7945,8703077030,jking,password,any-group,,employee
 88F0.7789.3BE8,Adam Trausch,7056 - Adam Trausch,7056,7945,8703077056,atrausch,password,any-group,,employee
 88F0.7789.3857,Kim Crosby,7275 - Kim Crosby,7275,7945,8703077275,kcrosby,password,any-group,,employee
-DC7B.94F9.69B9,Activities Student,7369 - Activities Student,7369,7945,8703077369,,password,any-group,,employee
-0025.84A1.B818,Advocate Family,7200 - Advocate Family,7200,7945,8703077200,,password,any-group,,employee
+DC7B.94F9.69B9,Student Activities,7369 – Student Activities,7369,7945,8703077369,,password,any-group,,employee
+0025.84A1.B818,Family Advocate,7200 – Family Advocate,7200,7945,8703077200,,password,any-group,,employee
 0026.0B5D.AB66,Lynn Pearson.,7201 - Lynn Pearson.,7201,7945,8703077201,lpearson,password,any-group,,employee
 DC7B.9476.68F5,Dalton Lamons,7372 - Dalton Lamons,7372,7945,8703077372,dlamons,password,any-group,,employee
 E804.62EA.8DE6,Office LEAP,7529 - Office LEAP,7529,7945,8703077529,,password,any-group,,employee

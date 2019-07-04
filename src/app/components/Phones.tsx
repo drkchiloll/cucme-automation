@@ -12,9 +12,8 @@ export class Phones extends React.Component<any, any> {
     this.state = {};
   }
   render() {
-    const dns = this.props.cutSheet.dns,
-      devices = this.props.cutSheet.phones;
-    console.log(this.props)
+    let dns = this.props.cutSheet ? this.props.cutSheet.dns: [],
+      devices = this.props.cutSheet ? this.props.cutSheet.phones: [];
     return (
       <>
         <ExpansionPanel>
@@ -30,6 +29,9 @@ export class Phones extends React.Component<any, any> {
               <Grid sm={12} item>
                 <MaterialTable
                   title='DNs'
+                  options={{
+                    padding: 'dense'
+                  }}
                   columns={[
                     { title: 'ID', field: 'tag', type: 'numeric' },
                     { title: 'Number', field: 'number' },
@@ -61,6 +63,9 @@ export class Phones extends React.Component<any, any> {
               <Grid sm={12} item>
                 <MaterialTable
                   title='Devices'
+                  options={{
+                    padding: 'dense'
+                  }}
                   columns={[
                     { title: 'ID', field: 'tag', type: 'numeric' },
                     { title: 'MAC', field: 'mac' },

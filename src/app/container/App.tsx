@@ -8,7 +8,9 @@ export class App extends Component<any, any> {
   public cme = new Api();
   constructor(props) {
     super(props);
-    this.state = { corDialog: false }
+    this.state = {
+      cutSheet: null
+    }
   }
   render() {
     return (
@@ -23,14 +25,25 @@ export class App extends Component<any, any> {
         >
           Generate Configurations
         </Button>
-        {
-          this.state.corDialog ?
-            <>
-              <CorDialog />
-              <Phones cutSheet={this.cme.csvData} /> 
-            </> :
-            <></>
-        }
+        <input
+          style={{ display: 'none' }}
+          accept="text/csv"
+          id="text-button-file"
+          type="file"
+          onChange={(e) => {
+            const files: any = document.getElementById('text-button-file');
+            this.cme.parseCsv(files.files[0]).then(cutSheet => {
+              this.setState({ cutSheet });
+            })
+          }}
+        />
+        <label htmlFor="text-button-file">
+          <Button component="span"> 
+            Import Phones CSV 
+          </Button>
+        </label>
+        <CorDialog />
+        <Phones cutSheet={this.state.cutSheet} /> 
       </div>
     );
   }
