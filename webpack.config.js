@@ -27,9 +27,6 @@ module.exports = (env, options) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js']
     },
-    externals: {
-      "fs": "require('fs')"
-    },
     module: {
       rules: [{
         test: /\.tsx?$/,

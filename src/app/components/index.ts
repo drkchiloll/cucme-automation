@@ -1,2 +1,3 @@
 // Component Exports
-export { Generic } from './Generic';
+export { CorDialog } from './CorDialog';
+export { Phones } from './Phones';

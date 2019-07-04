@@ -3,14 +3,17 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import * as xpath from 'xpath';
 import { DOMParser as dom } from 'xmldom';
 import axios, { AxiosInstance } from 'axios';
+import * as Promise from 'bluebird';
 import { cmeXmlFactory } from './cme-xml';
-import fs from 'fs';
+import * as csv from 'csvtojson';
+import { join } from 'path';
 const cmeService = cmeXmlFactory();
-const csvFile = './lyon_cut_sheet.csv';
+const csvFile = join(__dirname, './lyon_cut_sheet.csv');
 
 
 export class Api {
   public request: AxiosInstance;
+  public csvData: any;
   constructor() {
     this.request = axios.create({
       baseURL: 'http://10.232.0.253/ios_xml_app/cme',
@@ -23,6 +26,48 @@ export class Api {
         Accept: 'text/xml'
       }
     })
+    let phDevices = {
+      phones: [],
+      dns: []
+    };
+    csv().fromFile(csvFile).then((csvData: any) => {
+      return Promise.reduce(csvData, (a, d, i) => {
+        if(!d.dn) {
+          return a;
+        }
+        let phone = {
+          tag: i+1,
+          mac: d.mac,
+          description: d.description,
+          type: d.type,
+          username: d.username, 
+          password: d.password,
+          template: 1,
+          corList: 'employee',
+          vad: true,
+          dtmfRelay: 'rtp-nte',
+          busyTrigger: 2
+        }
+        a['phones'].push(phone);
+        let device = {
+          tag: i+1,
+          number: d.dn,
+          label: d.label,
+          name: d.name,
+          presence: true,
+          mwi: true,
+          cfwd: true,
+          cfwdtimeout: 20,
+          pickupCall: d.pickupCall,
+          pickupGroup: 1
+        };
+        a['dns'].push(device);
+        return a;
+      }, phDevices).then(d => {
+        this.csvData = d;
+        console.log(this.csvData);
+      })
+    })
   }
   get() {
     const xmlD = `
@@ -31,7 +76,6 @@ export class Api {
       </ISgetVoiceRegGlobal>
      </request>  
     `
-    fs.readFile(csvFile, 'utf8', (e, d) => console.log(d));
     return this.request.post(
       '/', xmlD
     ).then(({ data }) => {
