@@ -66,7 +66,8 @@ let menuTemplate: any = [{
 if(NODE_ENV === 'production') {
   menuTemplate[1].submenu.splice(1, 1);
 }
-if(process.platform === 'win32') {
+if(process.platform === 'win32' ||
+   process.platform === 'linux') {
   menuTemplate[menuTemplate.length - 1].submenu.push({
     label: 'Check for Updates...',
     click(item: any, focusedWindow: any) {
