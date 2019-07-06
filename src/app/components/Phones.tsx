@@ -9,11 +9,29 @@ import { ExpandMore } from '@material-ui/icons';
 export class Phones extends React.Component<any, any> {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dns: [],
+      devices: []
+    };
+  }
+  componentWillMount() {
+    if(this.props.cutSheet && this.props.cutSheet.dns) {
+      this.setState({
+        dns: this.props.cutSheet.dns,
+        devices: this.props.cutSheet.phones
+      })
+    }
+  }
+  componentWillReceiveProps(props) {
+    if(props.cutSheet && props.cutSheet.dns.length > 0) {
+      this.setState({
+        dns: props.cutSheet.dns,
+        devices: props.cutSheet.phones
+      })
+    }
   }
   render() {
-    let dns = this.props.cutSheet ? this.props.cutSheet.dns: [],
-      devices = this.props.cutSheet ? this.props.cutSheet.phones: [];
+    const { dns, devices } = this.state;
     return (
       <>
         <ExpansionPanel>
