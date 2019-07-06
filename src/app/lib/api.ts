@@ -8,8 +8,6 @@ import { cmeXmlFactory } from './cme-xml';
 import * as csv from 'csvtojson';
 import { join } from 'path';
 const cmeService = cmeXmlFactory();
-const csvFile = join(__dirname, './lyon_cut_sheet.csv');
-
 
 export class Api {
   public request: AxiosInstance;
