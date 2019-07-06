@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import * as PropTypes from 'prop-types';
-import { CorDialog, Phones } from '../components';
+import { CorDialog, Phones, Templates } from '../components';
 import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Api } from '../lib/api';
@@ -19,7 +18,6 @@ const styles = theme => ({
     padding: '0 30px',
   },
 });
-
 
 class Comp extends Component<any, any> {
   public cme = new Api();
@@ -49,7 +47,7 @@ class Comp extends Component<any, any> {
             })
           }}
         >
-          Generate Configurations MO&MO
+          Generate Configurations
         </Button>
         <input
           style={{ display: 'none' }}
@@ -69,6 +67,7 @@ class Comp extends Component<any, any> {
           </Button>
         </label>
         <CorDialog />
+        <Templates />
         <Phones cutSheet={this.state.cutSheet} />
         {
           this.state.update ? 
@@ -76,7 +75,6 @@ class Comp extends Component<any, any> {
               update={this.state.update}
               close={() => this.setState({ update: false })}
             />:
-            
             <></>
         }
       </div>
