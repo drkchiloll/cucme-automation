@@ -38,17 +38,6 @@ class Comp extends Component<any, any> {
     const { classes } = this.props;
     return (
       <div style={{ marginLeft: '15px' }}>
-        <Button
-          className={classes.root}
-          variant='contained'
-          onClick={() => {
-            this.setState({
-              update: !this.state.update
-            })
-          }}
-        >
-          Generate Configurations
-        </Button>
         <input
           style={{ display: 'none' }}
           accept="text/csv"
@@ -63,7 +52,7 @@ class Comp extends Component<any, any> {
         />
         <label htmlFor="text-button-file">
           <Button component="span"> 
-            Import Phones CSV 
+            Import Device CSV 
           </Button>
         </label>
         <Paper> 
