@@ -8,7 +8,7 @@ import { cmeXmlFactory } from './cme-xml';
 import * as csv from 'csvtojson';
 import { join } from 'path';
 const cmeService = cmeXmlFactory();
-
+ 
 export class Api {
   public request: AxiosInstance;
   public csvData: any;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import MaterialTable from 'material-table';
 import * as Promise from 'bluebird';
 import {
   Grid, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Button
@@ -10,42 +9,49 @@ export class Templates extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
-      customfieldName: 'name',
-      listFieldName: 'member',
-      custom: [
-        { name: 'emergency' },
-        { name: 'local' },
-        { name: 'longdistance' },
-        { name: 'international' }
-      ],
-      lists: [{
-        name: 'lobby',
-        members: [
-          { member: 1 },
-          { member: 2 }
+      deviceSoftkeys: [{
+        state: 'idle',
+        displays: [
+          'Redial',
+          'Newcall',
+          'Cfwdall',
+          'Pickup',
+          'Gpickup'
         ]
       }, {
-        name: 'employee',
-        members: [
-          { member: 1 },
-          { member: 2 },
-          { member: 3 },
+        state: 'seized',
+        displays: [
+          'Redial',
+          'Endcall',
+          'Meetme',
+          'Pickup',
+          'Gpickup',
+          'Cfwdall'
         ]
       }, {
-        name: 'management',
-        members: [
-          { member: 1 },
-          { member: 2 },
-          { member: 3 },
-          { member: 4 }
+        state: 'ringIn',
+        displays: [
+          'Redial',
+          'Endcall',
+          'Meetme',
+          'Pickup',
+          'Gpickup',
+          'Cfwdall'
         ]
+      }],
+      devices: [{
+        type: '7975',
+        btnLayoutLine: '1 2',
+        btnLayoutBlf: '3 4 5 6 7'
+      }, {
+        type: '7945',
+        btnLayoutLine: '1 2'
       }]
     }
   }
   render() {
     const {
-      custom,
-      lists
+      devices
     } = this.state;
     return (
       <ExpansionPanel>

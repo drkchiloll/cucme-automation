@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { CorDialog, Phones, Templates } from '../components';
-import { Button } from '@material-ui/core';
+import { CorDialog, Phones, Templates, Translations } from '../components';
+import { Button, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Api } from '../lib/api';
 import { Updates } from '../components/Updator';
@@ -66,8 +66,16 @@ class Comp extends Component<any, any> {
             Import Phones CSV 
           </Button>
         </label>
-        <CorDialog />
-        <Templates />
+        <Paper> 
+          <div style={{ margin: 15 }}>
+            <Typography variant="h5" gutterBottom>
+              Global Configurations
+            </Typography>
+            <CorDialog />
+            <Translations />
+            <Templates />
+          </div>
+        </Paper>
         <Phones cutSheet={this.state.cutSheet} />
         {
           this.state.update ? 
