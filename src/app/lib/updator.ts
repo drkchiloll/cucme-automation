@@ -59,6 +59,7 @@ export class Updator {
   }
 
   writeLocal({ rootdir, name, content }) {
+    console.log(rootdir);
     return new Promise(resolve => {
       let encoding = 'utf-8';
       if(name.includes('.jar')) {
@@ -104,7 +105,6 @@ export const updateService = (() => {
       return updator.setUpdatedDate()
         .then(path => updator.requestor.get(path)
           .then(({ data }) => {
-            console.log(data)
             if(data.length === 0) {
               throw new Error();
             }
@@ -112,9 +112,12 @@ export const updateService = (() => {
           }))
         .then(files => updator.filterRepo(files))
         .then(files => updator.processFiles(files))
-        // .then(files => updator.compareFiles(files, rootdir))
+        .then(files => updator.compareFiles(files, rootdir))
         .then(files => updator.updateLocal(files, rootdir))
-        .catch(() => false)
+        .catch((e) => {
+          console.log(e);
+          return false
+        })
     }
   };
   return service;

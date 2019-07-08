@@ -52,7 +52,7 @@ class Comp extends Component<any, any> {
         />
         <label htmlFor="text-button-file">
           <Button component="span"> 
-            Import Device CSV 
+            Import Device CSV FILE
           </Button>
         </label>
         <Paper> 
