@@ -11,7 +11,8 @@ export class Phones extends React.Component<any, any> {
     super(props);
     this.state = {
       dns: [],
-      devices: []
+      devices: [],
+      analog: []
     };
   }
   componentWillMount() {
@@ -24,14 +25,16 @@ export class Phones extends React.Component<any, any> {
   }
   componentWillReceiveProps(props) {
     if(props.cutSheet && props.cutSheet.dns.length > 0) {
+      console.log(props.cutSheet.analog);
       this.setState({
         dns: props.cutSheet.dns,
-        devices: props.cutSheet.phones
+        devices: props.cutSheet.phones,
+        analog: props.cutSheet.analog
       })
     }
   }
   render() {
-    const { dns, devices } = this.state;
+    const { dns, devices, analog } = this.state;
     return (
       <>
         <ExpansionPanel>
@@ -111,6 +114,22 @@ export class Phones extends React.Component<any, any> {
                       resolve => resolve()
                     )
                   }}
+                />
+              </Grid>
+              <Grid item sm={12}>
+                <MaterialTable
+                  title='Analog Devices'
+                  options={{ padding: 'dense' }}
+                  columns={[
+                    { title: 'ID', field: 'port' },
+                    { title: 'DN', field: 'dn' },
+                    { title: 'Name', field: 'name' },
+                    { title: 'Station Number', field: 'number' },
+                    { title: 'Type', field: 'type' },
+                    { title: 'COR List', field: 'corList' },
+                    { title: 'CallerID', field: 'callerId', type: 'boolean' }
+                  ]}
+                  data={analog}
                 />
               </Grid>
             </Grid>

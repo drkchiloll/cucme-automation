@@ -29,35 +29,47 @@ export class Api {
     return csv().fromFile(input.path)
       .then(csvData => Promise.reduce(csvData, (a, d, i) => {
         if(!d.dn) return a;
-        let phone = {
-          tag: i+1,
-          mac: d.mac,
-          description: d.description,
-          type: d.type,
-          username: d.username, 
-          password: d.password,
-          template: 1,
-          corList: 'employee',
-          vad: true,
-          dtmfRelay: 'rtp-nte',
-          busyTrigger: 2
+        if(d.type === 'ANALOG') {
+          a['analog'].push({
+            port: d.mac,
+            dn: d.dn,
+            name: d.name,
+            number: d.description,
+            type: d.type,
+            corList: d.corList || 'employee',
+            callerId: true
+          });
+        } else {
+          let phone = {
+            tag: i+1,
+            mac: d.mac,
+            description: d.description,
+            type: d.type,
+            username: d.username, 
+            password: d.password,
+            template: 1,
+            corList: 'employee',
+            vad: true,
+            dtmfRelay: 'rtp-nte',
+            busyTrigger: 2
+          }
+          a['phones'].push(phone);
+          let device = {
+            tag: i+1,
+            number: d.dn,
+            label: d.label,
+            name: d.name,
+            presence: true,
+            mwi: true,
+            cfwd: true,
+            cfwdtimeout: 20,
+            pickupCall: d.pickupCall,
+            pickupGroup: 1
+          };
+          a['dns'].push(device);
         }
-        a['phones'].push(phone);
-        let device = {
-          tag: i+1,
-          number: d.dn,
-          label: d.label,
-          name: d.name,
-          presence: true,
-          mwi: true,
-          cfwd: true,
-          cfwdtimeout: 20,
-          pickupCall: d.pickupCall,
-          pickupGroup: 1
-        };
-        a['dns'].push(device);
         return a;
-      }, { phones: [], dns: []}))
+      }, { phones: [], dns: [], analog: []}))
   }
   get() {
     const xmlD = `
