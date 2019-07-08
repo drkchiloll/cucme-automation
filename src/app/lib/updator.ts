@@ -105,12 +105,16 @@ export const updateService = (() => {
         .then(path => updator.requestor.get(path)
           .then(({ data }) => {
             console.log(data)
+            if(data.length === 0) {
+              throw new Error();
+            }
             return data
           }))
         .then(files => updator.filterRepo(files))
         .then(files => updator.processFiles(files))
         // .then(files => updator.compareFiles(files, rootdir))
-        .then(files => updator.updateLocal(files, rootdir));
+        .then(files => updator.updateLocal(files, rootdir))
+        .catch(() => false)
     }
   };
   return service;
