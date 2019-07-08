@@ -34,8 +34,7 @@ export class Updator {
 
   filterRepo(files: any[]) {
     return Promise.filter(files, ({ name, git_url }) =>
-      name.includes('bundle.js') || name === 'index.html' ||
-      name.includes('.jar')
+      name.includes('bundle.js') || name === 'index.html'
     ).then(files => Promise.map(files, f =>
       ({ name: f.name, uri: f.git_url })
     ))
@@ -45,13 +44,8 @@ export class Updator {
     return Promise.map(files, f =>
       this.requestor.get(f.uri).then(({ data: { content } }) => {
         let encoding = 'base64';
-        if(f.name.includes('jar') || f.name.includes('docx')) {
-          return Object.assign(f, {
-            content: new Buffer(content, 'base64')
-          })
-        }
         return Object.assign(f, {
-          content: new Buffer(content, 'base64')
+          content: Buffer.from(content, encoding)
             .toString('utf-8')
         });
       }));
@@ -109,10 +103,13 @@ export const updateService = (() => {
       const rootdir = updator.ROOT_DIR;
       return updator.setUpdatedDate()
         .then(path => updator.requestor.get(path)
-          .then(({ data }) => data))
+          .then(({ data }) => {
+            console.log(data)
+            return data
+          }))
         .then(files => updator.filterRepo(files))
         .then(files => updator.processFiles(files))
-        .then(files => updator.compareFiles(files, rootdir))
+        // .then(files => updator.compareFiles(files, rootdir))
         .then(files => updator.updateLocal(files, rootdir));
     }
   };
