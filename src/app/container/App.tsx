@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { CorDialog, Phones, Templates, Translations } from '../components';
+import {
+  CorDialog, Phones, Templates,
+  Translations, Updates
+} from '../components';
 import { Button, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Api } from '../lib/api';
-import { Updates } from '../components/Updator';
 
 const styles = theme => ({
   root: {
