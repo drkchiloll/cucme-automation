@@ -1,5 +1,6 @@
 /* API */
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+import { Client, ClientChannel, ConnectConfig } from 'ssh2';
 import * as xpath from 'xpath';
 import { DOMParser as dom } from 'xmldom';
 import axios, { AxiosInstance } from 'axios';
@@ -8,21 +9,71 @@ import { cmeXmlFactory } from './cme-xml';
 import * as csv from 'csvtojson';
 import { join } from 'path';
 const cmeService = cmeXmlFactory();
- 
+
+const hosts = [{
+  host: '10.232.0.253',
+  user: 'admin',
+  pass: 'Il2w@a!'
+}, {
+  host: '10.10.20.48',
+  user: 'developer',
+  pass: 'C1sco12345'
+}]
 export class Api {
   public request: AxiosInstance;
   public csvData: any;
   constructor() {
     this.request = axios.create({
-      baseURL: 'http://10.232.0.253/ios_xml_app/cme',
+      baseURL: `http://${hosts[1].host}/ios_xml_app/cme`,
       auth: {
-        username: 'admin',
-        password: 'Il2w@a!'
+        username: hosts[1].user,
+        password: hosts[1].pass
       },
       headers: {
         'Content-Type': 'text/xml',
         Accept: 'text/xml'
       }
+    })
+  }
+  apiEnable() {
+    const cmds = [
+      'config terminal',
+      'ixi transport http',
+      'response size 8',
+      'request outstanding 2',
+      'request timeout 30',
+      'no shutdown',
+      'ixi application cme',
+      'response timeout 30',
+      'no shutdown',
+      'telephony-service',
+      'xml user developer password C1sco12345 15'
+    ];
+    const sshCfg: ConnectConfig = {
+      host: hosts[1].host,
+      port: 22,
+      username: hosts[1].user,
+      password: hosts[1].pass,
+      keepaliveInterval: 7000
+    }
+    const ssh = new Client();
+    ssh.connect(sshCfg)
+    ssh.on('ready', () => {
+      ssh.shell((e, socket: ClientChannel) => {
+        socket.setEncoding('utf8');
+        let index = 0;
+        socket.on('data', d => {
+          console.log(d);
+          if(d.includes('#')) {
+            if(cmds.length === index) {
+              socket.close()
+            }
+            socket.write(cmds[index++]+'\n\r');
+          }
+        }).on('close', () => {
+          console.log('socket closed');
+        })
+      })
     })
   }
   parseCsv(input: any) {
@@ -83,6 +134,17 @@ export class Api {
     ).then(({ data }) => {
       console.log(data);
       return;
+    })
+  }
+  configureGlobals() {
+    /**
+     * The API Needs to Enabled
+     * I could use SSH to push this config
+     */
+    const config = cmeService.createGlobals();
+    return this.request.post('/', config).then(({ data }) => {
+      console.log(data);
+      return data;
     })
   }
   configure() {
