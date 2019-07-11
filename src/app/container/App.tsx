@@ -9,10 +9,10 @@ import {
 import { Button, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Api } from '../lib/api';
+import { CmeInit } from '../components/CmeInit';
 
 const styles = theme => ({
   root: {
-    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
     boxShadow: '0 3px 5px 2px', 
@@ -28,7 +28,8 @@ class Comp extends Component<any, any> {
     super(props);
     this.state = {
       cutSheet: null,
-      update: false
+      update: false,
+      initCme: false
     }
   }
   componentDidMount() {
@@ -39,6 +40,7 @@ class Comp extends Component<any, any> {
   }
   render() {
     const { classes } = this.props;
+    let { initCme } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
         <input
@@ -65,12 +67,7 @@ class Comp extends Component<any, any> {
             </Typography>
             <Button
               variant='contained'
-              onClick={() => {
-                this.cme.initSSH().then((ssh: Client) => {
-                  ssh.addListener('configpush', console.log);
-                  return this.cme.apiEnable(ssh);
-                })
-              }}
+              onClick={() => this.setState({ initCme: !initCme })}
             >
               Push Global Configurations
             </Button>
@@ -88,6 +85,11 @@ class Comp extends Component<any, any> {
             />:
             <></>
         }
+        <CmeInit
+          initCme={initCme}
+          closeInit={() => this.setState({ initCme: false })}
+          cme={this.cme}
+        />
       </div>
     );
   }
