@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
+import { Client } from 'ssh2';
 import {
   CorDialog, Phones, Templates,
   Translations, Updates
@@ -62,6 +63,17 @@ class Comp extends Component<any, any> {
             <Typography variant="h5" gutterBottom>
               Global Configurations
             </Typography>
+            <Button
+              variant='contained'
+              onClick={() => {
+                this.cme.initSSH().then((ssh: Client) => {
+                  ssh.addListener('configpush', console.log);
+                  return this.cme.apiEnable(ssh);
+                })
+              }}
+            >
+              Push Global Configurations
+            </Button>
             <CorDialog />
             <Translations />
             <Templates />
