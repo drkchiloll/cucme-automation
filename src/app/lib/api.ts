@@ -6,6 +6,7 @@ import { DOMParser as dom } from 'xmldom';
 import axios, { AxiosInstance } from 'axios';
 import * as Promise from 'bluebird';
 import { cmeXmlFactory } from './cme-xml';
+import { sshFactory } from './cme-ssh';
 import * as csv from 'csvtojson';
 import { join } from 'path';
 const cmeService = cmeXmlFactory();
@@ -22,6 +23,7 @@ const hosts = [{
 export class Api {
   public request: AxiosInstance;
   public csvData: any;
+  public sh: Client;
   constructor() {
     this.request = axios.create({
       baseURL: `http://${hosts[1].host}/ios_xml_app/cme`,
@@ -35,45 +37,18 @@ export class Api {
       }
     })
   }
-  apiEnable() {
-    const cmds = [
-      'config terminal',
-      'ixi transport http',
-      'response size 8',
-      'request outstanding 2',
-      'request timeout 30',
-      'no shutdown',
-      'ixi application cme',
-      'response timeout 30',
-      'no shutdown',
-      'telephony-service',
-      'xml user developer password C1sco12345 15'
-    ];
-    const sshCfg: ConnectConfig = {
+  initSSH() {
+    return sshFactory.est({
       host: hosts[1].host,
-      port: 22,
-      username: hosts[1].user,
-      password: hosts[1].pass,
-      keepaliveInterval: 7000
-    }
-    const ssh = new Client();
-    ssh.connect(sshCfg)
-    ssh.on('ready', () => {
-      ssh.shell((e, socket: ClientChannel) => {
-        socket.setEncoding('utf8');
-        let index = 0;
-        socket.on('data', d => {
-          console.log(d);
-          if(d.includes('#')) {
-            if(cmds.length === index) {
-              socket.close()
-            }
-            socket.write(cmds[index++]+'\n\r');
-          }
-        }).on('close', () => {
-          console.log('socket closed');
-        })
-      })
+      user: hosts[1].user,
+      pass: hosts[1].pass
+    });
+  }
+  apiEnable(ssh) {
+    return sshFactory.enableApi({
+      xmlUser: 'developer',
+      xmlPassword: 'C1sco12345',
+      ssh
     })
   }
   parseCsv(input: any) {
