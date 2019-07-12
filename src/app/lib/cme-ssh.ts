@@ -42,7 +42,7 @@ export const sshFactory = (() => {
           channel.setEncoding('utf8');
           channel.on('data', d => {
             if(idx === this.initCmds.length) {
-              setTimeout(() => channel.close(), 30000)
+              setTimeout(() => resolve(sh), 15000)
             }
             if(d.includes('#') && (idx < this.initCmds.length)) {
               channel.write(this.initCmds[idx++] + '\n\r');
@@ -53,7 +53,6 @@ export const sshFactory = (() => {
               sh.emit('configpush', results);
             }
           }).on('close', () => {
-            sh.emit('configpush', 'end');
             resolve();
           });
         })
