@@ -34,6 +34,20 @@ export const cmeXmlFactory = () => {
         data: []
       });
     },
+    createGlobals() {
+      const cfs = [
+        'sip-ua',
+        'presence enable',
+        'presence',
+        'max-subscription 500',
+        'presence call-list'
+      ];
+      const xml = this.genXml({
+        method: 'cli',
+        data: cfs
+      })
+      return xml;
+    },
     create() {
       const data = [
         'voice translation-rule 1',

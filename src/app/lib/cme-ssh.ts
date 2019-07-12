@@ -4,6 +4,7 @@ import * as Promise from 'bluebird';
 export const sshFactory = (() => {
   const service = {
     initCmds: [
+      'term mon',
       'config terminal',
       'ixi transport http',
       'response size 8',
@@ -41,17 +42,20 @@ export const sshFactory = (() => {
           channel.setEncoding('utf8');
           channel.on('data', d => {
             if(idx === this.initCmds.length) {
-              channel.close();
+              setTimeout(() => channel.close(), 30000)
             }
-            if(d.includes('#')) {
-              if(idx <= this.initCmds.length) {
-                sh.emit('configpush', {
-                  increment: this.initCmds[idx]
-                })
-              }
+            if(d.includes('#') && (idx < this.initCmds.length)) {
               channel.write(this.initCmds[idx++] + '\n\r');
             }
-          }).on('close', () => resolve());
+            if(d.includes('*')) {
+              d = d.replace(/\r/gi, '');
+              let results = d.split('*').filter(d1 => d1);
+              sh.emit('configpush', results);
+            }
+          }).on('close', () => {
+            sh.emit('configpush', 'end');
+            resolve();
+          });
         })
       )
     }
