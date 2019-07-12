@@ -111,16 +111,23 @@ export class Api {
       return;
     })
   }
-  configureGlobals() {
+  configureGlobals(ssh: any) {
     /**
      * The API Needs to Enabled
      * I could use SSH to push this config
      */
-    const config = cmeService.createGlobals();
-    return this.request.post('/', config).then(({ data }) => {
-      console.log(data);
-      return data;
-    })
+    return cmeService.createGlobals().then(xmls =>
+      Promise.each(xmls, xml => this.request.post(
+        '/', xml
+      ).then(({ data }) => {
+        ssh.emit('configpush', [xml]);
+        return;
+      })).then(() => {
+        ssh.emit('configpush', 'end');
+        ssh.end();
+        return;
+      })
+    )
   }
   configure() {
     const config = cmeService.create();
@@ -169,6 +176,27 @@ const cfg: any = {
       ]
     }]
   },
+  templates: [{
+    tag: 1,
+    cmds: [
+      'button-layout 1 line',
+      'button-layout 2 blf-speed-dial',
+      'softkeys ringIn Answer iDivert DND',
+      'softkeys seized Redial Endcall Pickup Gpickup Cfwdall Meetme',
+      'conference drop-mode local',
+      'transfer max-length 12'
+    ]
+  }, {
+    tag: 2,
+    cmds: [
+      'button-layout 1-2 line',
+      'button-layout 3-7 blf-speed-dial',
+      'softkeys ringIn Answer iDivert DND',
+      'softkeys seized Redial Endcall Pickup Gpickup Cfwdall Meetme',
+      'conference drop-mode local',
+      'transfer max-length 12'
+    ]
+  }],
   cor: {
     custom: [
       { name: 'emergency' },
