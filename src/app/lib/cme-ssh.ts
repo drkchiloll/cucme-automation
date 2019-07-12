@@ -38,12 +38,10 @@ export const sshFactory = (() => {
       );
       let idx = 0;
       return new Promise(resolve =>
-        sh.shell((e, channel) => {
+        sh.shell((e, channel: ClientChannel) => {
           channel.setEncoding('utf8');
           channel.on('data', d => {
-            if(idx === this.initCmds.length) {
-              setTimeout(() => resolve(sh), 15000)
-            }
+            if(idx === this.initCmds.length) return resolve();
             if(d.includes('#') && (idx < this.initCmds.length)) {
               channel.write(this.initCmds[idx++] + '\n\r');
             }
