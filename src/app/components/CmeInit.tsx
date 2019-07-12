@@ -59,7 +59,9 @@ export class CmeInitialization extends Component<any, any> {
           this.setState({ messages: newArr });
         }
       })
-      return cme.apiEnable(ssh);
+      return cme.apiEnable(ssh).then(() =>
+        cme.configureGlobals()
+      )
     })
   }
   render() {
