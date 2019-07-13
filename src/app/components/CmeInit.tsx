@@ -4,13 +4,12 @@ import {
   Dialog, DialogActions, DialogContent, DialogContentText,
   DialogTitle, Button, CircularProgress, Slide
 } from '@material-ui/core';
-import { blueGrey, red, cyan } from '@material-ui/core/colors';
+import { blueGrey, cyan } from '@material-ui/core/colors';
 import {} from '@material-ui/icons';
 import { Theme, withStyles } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
 import { Client } from 'ssh2';
 import { Api } from '../lib/api';
-import { instanceOf } from 'prop-types';
 
 const styles = (theme: Theme) => createStyles({
   root: { display: 'flex', alignItems: 'center' },
