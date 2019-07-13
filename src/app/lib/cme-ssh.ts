@@ -41,7 +41,9 @@ export const sshFactory = (() => {
         sh.shell((e, channel: ClientChannel) => {
           channel.setEncoding('utf8');
           channel.on('data', d => {
-            if(idx === this.initCmds.length) return resolve();
+            if(idx === this.initCmds.length) {
+              setTimeout(() => resolve(ssh), 10000)
+            }
             if(d.includes('#') && (idx < this.initCmds.length)) {
               channel.write(this.initCmds[idx++] + '\n\r');
             }
