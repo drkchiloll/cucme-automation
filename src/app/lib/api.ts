@@ -68,6 +68,7 @@ export class Api {
           let phone = {
             tag: i+1,
             mac: d.mac,
+            dn: i+1,
             description: d.description,
             type: d.type,
             username: d.username, 
@@ -142,6 +143,52 @@ export class Api {
       console.log(data);
       return;
     })
+  }
+  deployDns(dirNums: any) {
+    return Promise.map(dirNums, (dirNum: any) => {
+      const config = [
+        `voice register dn ${dirNum.tag}`,
+        `number ${dirNum.number}`,
+        `name ${dirNum.name}`,
+        `label ${dirNum.label}`,
+        `allow watch`,
+        `call-forward b2bua noan 7429 timeout ${dirNum.cfwdtimeout}`,
+        `call-forward b2bua busy 7429`,
+        `mwi`,
+        `pickup-call any-group`
+      ];
+      return cmeService.genXml({ method: 'cli', data: config });
+    }).map(xml => this.request.post('/', xml).then(({ data }) => {
+      console.log(data);
+      return;
+    }), { concurrency: 3 })
+  }
+  deployPhones(devices: any) {
+    return Promise.map(devices, (device: any) => {
+      let config = [
+        `voice register pool ${device.tag}`,
+        `id mac ${device.mac}`,
+        `type ${device.type}`,
+        `number 1 dn ${device.dn}`,
+        `busy-trigger-per-button ${device.busyTrigger}`,
+        `dtmf-relay ${device.dtmfRelay}`,
+        `no vad`,
+        `presence call-list`,
+        `description ${device.description}`,
+        `cor incoming ${device.corList} default`,
+        `template ${device.template}`,
+        `voice-class codec 1`
+      ];
+      if(device.username && device.password) {
+        config.push(
+          `username ${device.username} password ${device.password}`
+        );
+      }
+      return cmeService.genXml({ method: 'cli', data: config });
+    }).map(xml => this.request.post('/', xml).then(({ data }) => {
+      console.log(data);
+      return data;
+    }), { concurrency: 3 });
   }
 }
 
