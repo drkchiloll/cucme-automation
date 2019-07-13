@@ -2,17 +2,55 @@ import * as React from 'react';
 import MaterialTable from 'material-table';
 import * as Promise from 'bluebird';
 import {
-  Grid, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Button
+  Grid, ExpansionPanel, ExpansionPanelDetails,
+  ExpansionPanelSummary, Button, CircularProgress
 } from '@material-ui/core';
+import { withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles } from '@material-ui/styles';
 import { ExpandMore } from '@material-ui/icons';
+import { blueGrey, cyan } from '@material-ui/core/colors';
 
-export class Phones extends React.Component<any, any> {
+const styles = (theme: Theme) => createStyles({
+  root: { display: 'flex', alignItems: 'center' },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative'
+  },
+  buttonSuccess: {
+    backgroundColor: blueGrey[200],
+    '&:hover': {
+      backgroundColor: blueGrey[300]
+    }
+  },
+  buttonProgress: {
+    color: cyan[300],
+    position: 'absolute',
+    top: '50%',
+    left: '25%',
+    marginTop: -12,
+    marginLeft: -12
+  },
+  smButtonProgress: {
+    color: cyan[300],
+    position: 'absolute',
+    top: '50%',
+    left: '15%',
+    marginTop: -12,
+    marginLeft: -12
+  }
+})
+
+export class PhonesImport extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
       dns: [],
       devices: [],
-      analog: []
+      analog: [],
+      dnRunner: false,
+      dnSuccess: false,
+      devRunner: false,
+      devSuccess: false
     };
   }
   componentWillMount() {
@@ -25,7 +63,6 @@ export class Phones extends React.Component<any, any> {
   }
   componentWillReceiveProps(props) {
     if(props.cutSheet && props.cutSheet.dns.length > 0) {
-      console.log(props.cutSheet.analog);
       this.setState({
         dns: props.cutSheet.dns,
         devices: props.cutSheet.phones,
@@ -33,8 +70,24 @@ export class Phones extends React.Component<any, any> {
       })
     }
   }
+  dnInit = () => {
+    const { dns } = this.state;
+    const { cme } = this.props;
+    this.setState({ dnRunner: true });
+    return cme.deployDns(dns).then(() =>
+      this.setState({ dnRunner: false, dnSuccess: true })
+    )
+  }
+  devInit = () => {
+    const { devices } = this.state;
+    const { cme } = this.props;
+    this.setState({ devRunner: true });
+    return cme.deployPhones(devices).then(() =>
+      this.setState({ devRunner: false, devSuccess: true })
+    )
+  }
   render() {
-    const { dns, devices, analog } = this.state;
+    const { dns, devices, analog, dnRunner, devRunner } = this.state;
     return (
       <>
         <ExpansionPanel>
@@ -81,6 +134,27 @@ export class Phones extends React.Component<any, any> {
                   }}
                 />
               </Grid>
+              <Grid sm={4} item>
+                <div className={this.props.classes.wrapper}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    disabled={dnRunner}
+                    className={this.props.classes.buttonSuccess}
+                    onClick={this.dnInit}
+                  >
+                    Deploy Directory Numbers
+                  </Button>
+                  {
+                    dnRunner &&
+                      <CircularProgress 
+                        size={28}
+                        thickness={5}
+                        className={this.props.classes.buttonProgress}
+                      />
+                  }
+                </div>
+              </Grid>
               <Grid sm={12} item>
                 <MaterialTable
                   title='Devices'
@@ -116,6 +190,27 @@ export class Phones extends React.Component<any, any> {
                   }}
                 />
               </Grid>
+              <Grid sm={4} item>
+                <div className={this.props.classes.wrapper}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    disabled={devRunner}
+                    className={this.props.classes.buttonSuccess}
+                    onClick={this.devInit}
+                  >
+                    Deploy Phones
+                  </Button>
+                  {
+                    devRunner &&
+                      <CircularProgress 
+                        size={28}
+                        thickness={5}
+                        className={this.props.classes.smButtonProgress}
+                      />
+                  }
+                </div>
+              </Grid>
               <Grid item sm={12}>
                 <MaterialTable
                   title='Analog Devices'
@@ -139,3 +234,6 @@ export class Phones extends React.Component<any, any> {
     )
   }
 }
+
+const Phones = withStyles(styles)(PhonesImport);
+export { Phones };
