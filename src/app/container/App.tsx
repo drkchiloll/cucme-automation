@@ -76,7 +76,7 @@ class Comp extends Component<any, any> {
             <Templates />
           </div>
         </Paper>
-        <Phones cutSheet={this.state.cutSheet} />
+        <Phones cutSheet={this.state.cutSheet} cme={this.cme} />
         {
           this.state.update ? 
             <Updates
