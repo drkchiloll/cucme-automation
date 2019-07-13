@@ -204,7 +204,7 @@ export const cmeXmlFactory = () => {
             'emergency', 'local'
           ]
         }, {
-          name: 'faculty',
+          name: 'employee',
           members: [
             'emergency', 'local', 'longdistance'
           ]
