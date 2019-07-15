@@ -34,8 +34,8 @@ class Title extends Component<any, any> {
           id="csv-file"
           type="file"
           onChange={(e) => {
-            const files: any = document.getElementById('csv-file').files[0];
-            this.props.importFile(files);
+            const files: any = document.getElementById('csv-file');
+            this.props.importFile(files.files[0]);
           }}
         />
         <label htmlFor="csv-file">
