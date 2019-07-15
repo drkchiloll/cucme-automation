@@ -4,9 +4,9 @@ import { ipcRenderer } from 'electron';
 import { Client } from 'ssh2';
 import {
   CorDialog, Phones, Templates,
-  Translations, Updates
+  Translations, Updates, TitleBar
 } from '../components';
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Paper, Typography, AppBar, Toolbar } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Api } from '../lib/api';
 import { CmeInit } from '../components/CmeInit';
@@ -38,28 +38,16 @@ class Comp extends Component<any, any> {
       console.log('I am trying to update you');
     })
   }
+  handleCsvImport = csv => {
+    this.cme.parseCsv(csv).then(cutSheet => this.setState({
+      cutSheet
+    }))
+  }
   render() {
-    const { classes } = this.props;
-    let { initCme } = this.state;
+    let { update, initCme, cutSheet } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
-        <input
-          style={{ display: 'none' }}
-          accept="text/csv"
-          id="text-button-file"
-          type="file"
-          onChange={(e) => {
-            const files: any = document.getElementById('text-button-file');
-            this.cme.parseCsv(files.files[0]).then(cutSheet => {
-              this.setState({ cutSheet });
-            })
-          }}
-        />
-        <label htmlFor="text-button-file">
-          <Button component="span"> 
-            Import Device CSV FILE
-          </Button>
-        </label>
+        <TitleBar importFile={this.handleCsvImport} />
         <Paper> 
           <div style={{ margin: 15 }}>
             <Typography variant="h5" gutterBottom>
@@ -76,11 +64,11 @@ class Comp extends Component<any, any> {
             <Templates />
           </div>
         </Paper>
-        <Phones cutSheet={this.state.cutSheet} cme={this.cme} />
+        <Phones cutSheet={cutSheet} cme={this.cme} />
         {
           this.state.update ? 
             <Updates
-              update={this.state.update}
+              update={update}
               close={() => this.setState({ update: false })}
             />:
             <></>
