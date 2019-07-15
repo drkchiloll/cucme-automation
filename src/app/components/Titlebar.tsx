@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { Accounts } from './';
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
@@ -15,34 +16,56 @@ const styles = (theme: Theme) => createStyles({
 })
 
 class Title extends Component<any, any> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addAccount: false
+    }
+  }
   render() {
     const { classes } = this.props;
     return (
-      <AppBar
-        position='static'
-        className={classes.barStyles}
-      >
-        <Toolbar>
-          <Typography variant='h6' className={classes.title}>
-            Cisco Communications Manager Express Automation
-          </Typography>
-        <input
-          style={{ display: 'none' }}
-          accept="text/csv"
-          id="csv-file"
-          type="file"
-          onChange={(e) => {
-            const files: any = document.getElementById('csv-file');
-            this.props.importFile(files.files[0]);
-          }}
-        />
-        <label htmlFor="csv-file">
-          <Button component="span" color='inherit'> 
-            Import CSV
+      <>
+        <AppBar
+          position='static'
+          className={classes.barStyles}
+        >
+          <Toolbar>
+            <Typography variant='h6' className={classes.title}>
+              Cisco Communications Manager Express Automation
+            </Typography>
+          <input
+            style={{ display: 'none' }}
+            accept="text/csv"
+            id="csv-file"
+            type="file"
+            onChange={(e) => {
+              const files: any = document.getElementById('csv-file');
+              this.props.importFile(files.files[0]);
+            }}
+          />
+          <label htmlFor="csv-file">
+            <Button component="span" color='inherit'> 
+              Import CSV
+            </Button>
+          </label>
+          <Button
+            component="span"
+            color='inherit'
+            onClick={() => this.setState({ addAccount: true })}
+          > 
+            Accounts 
           </Button>
-        </label>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
+        {
+          this.state.addAccount &&
+            <Accounts
+              close={() => this.setState({ addAccount: false })}
+              accounts={this.props.accounts}
+            />
+        }
+      </>
     ) 
   }
 }
