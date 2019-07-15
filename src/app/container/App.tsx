@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { Client } from 'ssh2';
 import {
   CorDialog, Phones, Templates,
   Translations, Updates, TitleBar
 } from '../components';
 import { Button, Paper, Typography, AppBar, Toolbar } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { Api } from '../lib/api';
+import { Api, SysAccount } from '../lib';
 import { CmeInit } from '../components/CmeInit';
 
 const styles = theme => ({
@@ -24,18 +23,32 @@ const styles = theme => ({
 
 class Comp extends Component<any, any> {
   public cme = new Api();
+  public accounts = new SysAccount();
   constructor(props) {
     super(props);
     this.state = {
       cutSheet: null,
       update: false,
-      initCme: false
+      initCme: false,
+      accounts: []
     }
   }
   componentDidMount() {
     ipcRenderer.on('update', () => {
       this.setState({ update: true });
       console.log('I am trying to update you');
+    });
+    this.accounts.init('accounts').then(({ data }) => {
+      if(data.length === 0) {
+        this.accounts.add({
+          name: 'DevnetSandbox',
+          host: '10.10.20.48',
+          username: 'developer',
+          password: 'C1sco12345',
+          selected: true
+        })
+      }
+      this.accounts.get().then(accounts => this.setState({ accounts }));
     })
   }
   handleCsvImport = csv => {
@@ -47,7 +60,10 @@ class Comp extends Component<any, any> {
     let { update, initCme, cutSheet } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
-        <TitleBar importFile={this.handleCsvImport} />
+        <TitleBar
+          importFile={this.handleCsvImport}
+          accounts={this.state.accounts}
+        />
         <Paper> 
           <div style={{ margin: 15 }}>
             <Typography variant="h5" gutterBottom>
@@ -66,7 +82,7 @@ class Comp extends Component<any, any> {
         </Paper>
         <Phones cutSheet={cutSheet} cme={this.cme} />
         {
-          this.state.update ? 
+          update ? 
             <Updates
               update={update}
               close={() => this.setState({ update: false })}
