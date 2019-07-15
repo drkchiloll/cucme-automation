@@ -2,14 +2,12 @@ import * as React from 'react';
 import { Component } from 'react';
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
-import { createStyles, mergeClasses } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 import { blueGrey } from '@material-ui/core/colors';
-import { Settings } from '@material-ui/icons';
 
 const styles = (theme: Theme) => createStyles({
   barStyles: {
-    backgroundColor: blueGrey[300],
-    marginBottom: 10
+    backgroundColor: blueGrey[300]
   },
   title: {
     flexGrow: 1,
