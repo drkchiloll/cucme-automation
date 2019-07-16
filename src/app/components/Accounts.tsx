@@ -19,6 +19,7 @@ import {
 import { withStyles, Theme } from '@material-ui/core/styles';
 import createStyles from '@material-ui/styles/createStyles';
 import { GroupAdd, Delete } from '@material-ui/icons';
+import { AccountList } from './';
 
 const styles = (theme: Theme) => createStyles({
   acctDial: {},
@@ -49,7 +50,7 @@ class Acct extends Component<any, any> {
   selectAccount = item => this.setState({ selectedAccount: item })
   render() {
     const { classes, accounts } = this.props;
-    let { selectedAccount } = this.state;
+    const selectedAccount = accounts.findIndex(a => a.selected);
     let account = accounts[selectedAccount];
     return (
       <Dialog
@@ -66,41 +67,45 @@ class Acct extends Component<any, any> {
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item sm={5}>
-              <Paper className={classes.acctList} elevation={2}>
-                <List dense={true} className={classes.list}>
-                  {
-                    accounts.map((account, idx) => (
-                      <ListItem key={account.name} button selected={selectedAccount === idx}
-                        onClick={() => this.selectAccount(idx)} 
-                      >
-                        <ListItemText>{account.name}</ListItemText>
-                      </ListItem>
-
-                    ))
-                  }
-                </List>
-                <BottomNavigation
-                  value={0}
-                  onChange={(event, newValue) => {}}
-                  showLabels
-                  className={classes.root}
-                >
-                  <BottomNavigationAction label="Recents" icon={<GroupAdd />} />
-                  <BottomNavigationAction label="Favorites" icon={<Delete/>} />
-                </BottomNavigation>
-              </Paper>
+              <AccountList selectedAccount={selectedAccount}
+                selectAccount={this.selectAccount}
+                activeAccount={selectedAccount}
+                account={account}
+                accounts={accounts}
+                addNewAccount={this.props.addEmptyAccount} />
             </Grid>
             <Grid item sm={7}>
               <Grid item sm={12}>
-                <TextField fullWidth label='CME IP' value={account.host}/>
+                <TextField
+                  fullWidth
+                  label='Name'
+                  value={account.name}
+                />
               </Grid>
               <br/>
               <Grid item sm={12}>
-                <TextField fullWidth label='username' value={account.username}/>
+                <TextField
+                  fullWidth
+                  label='CME IP'
+                  value={account.host}
+                />
               </Grid>
               <br/>
               <Grid item sm={12}>
-                <TextField fullWidth label='password' value={account.password}/>
+                <TextField
+                  fullWidth
+                  label='username'
+                  value={account.username}
+                />
+              </Grid>
+              <br/>
+              <Grid item sm={12}>
+                <TextField
+                  fullWidth
+                  label='password'
+                  value={account.password}
+                  type='password'
+                />
               </Grid>
               <br/>
             </Grid>

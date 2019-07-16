@@ -38,9 +38,9 @@ class Comp extends Component<any, any> {
       this.setState({ update: true });
       console.log('I am trying to update you');
     });
-    this.accounts.init('accounts').then(({ data }) => {
+    return this.accounts.init('accounts').then(({ data }) => {
       if(data.length === 0) {
-        this.accounts.add({
+        return this.accounts.add({
           name: 'DevnetSandbox',
           host: '10.10.20.48',
           username: 'developer',
@@ -48,8 +48,21 @@ class Comp extends Component<any, any> {
           selected: true
         })
       }
-      this.accounts.get().then(accounts => this.setState({ accounts }));
-    })
+      return;
+    }).then(() => this.getAccounts());
+  }
+  getAccounts = () => this.accounts.get().then(accounts =>
+    this.setState({ accounts })
+  )
+  addEmptyAccount = () => {
+    let { accounts } = this.state;
+    let account = {
+      name: 'NEW', host: '', username: '', password: '', selected: true
+    };
+    let seleIdx = accounts.findIndex(a => a.selected);
+    accounts[seleIdx].selected = false;
+    accounts.push(account);
+    this.setState({ account });
   }
   handleCsvImport = csv => {
     this.cme.parseCsv(csv).then(cutSheet => this.setState({
@@ -63,6 +76,9 @@ class Comp extends Component<any, any> {
         <TitleBar
           importFile={this.handleCsvImport}
           accounts={this.state.accounts}
+          updateAccounts={this.getAccounts}
+          accountDb={this.accounts}
+          addNewAccount={this.addEmptyAccount}
         />
         <Paper> 
           <div style={{ margin: 15 }}>
