@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as Promise from 'bluebird';
 import {
-  Grid, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Button
+  Grid, ExpansionPanel, ExpansionPanelDetails,
+  ExpansionPanelSummary, Button
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons'
 
