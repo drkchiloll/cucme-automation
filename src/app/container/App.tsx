@@ -5,24 +5,22 @@ import {
   CorDialog, Phones, Templates,
   Translations, Updates, TitleBar
 } from '../components';
-import { Button, Paper, Typography, AppBar, Toolbar } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { Button, Paper, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { createStyles } from '@material-ui/styles';
 import { Api, SysAccount } from '../lib';
 import { CmeInit } from '../components/CmeInit';
 
-const styles = theme => ({
+const styles = theme => createStyles({
   root: {
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px', 
-    color: 'grey',
-    height: 48,
-    padding: '0 30px',
-  },
+    marginTop: 5,
+    marginLeft: 5,
+    marginBottom: 5
+  }
 });
 
 class Comp extends Component<any, any> {
-  public cme = new Api();
+  public cme: Api;
   public accounts = new SysAccount();
   constructor(props) {
     super(props);
@@ -51,9 +49,16 @@ class Comp extends Component<any, any> {
       return;
     }).then(() => this.getAccounts());
   }
-  getAccounts = () => this.accounts.get().then(accounts =>
-    this.setState({ accounts })
-  )
+  getAccounts = () => this.accounts.get().then(accounts => {
+    this.setState({ accounts });
+    const account = accounts.find(a => a.selected);
+    this.cme = new Api({
+      name: account.name,
+      host: account.host,
+      username: account.username,
+      password: account.password
+    });
+  })
   addEmptyAccount = () => {
     let { accounts } = this.state;
     let account = {
@@ -71,6 +76,7 @@ class Comp extends Component<any, any> {
   }
   render() {
     let { update, initCme, cutSheet } = this.state;
+    const { classes } = this.props;
     return (
       <div style={{ marginLeft: '15px' }}>
         <TitleBar
@@ -79,23 +85,19 @@ class Comp extends Component<any, any> {
           updateAccounts={this.getAccounts}
           accountDb={this.accounts}
           addNewAccount={this.addEmptyAccount}
-        />
-        <Paper> 
-          <div style={{ margin: 15 }}>
-            <Typography variant="h5" gutterBottom>
-              Global Configurations
-            </Typography>
-            <Button
-              variant='contained'
-              onClick={() => this.setState({ initCme: !initCme })}
-            >
-              Push Global Configurations
-            </Button>
-            <CorDialog />
-            <Translations />
-            <Templates />
-          </div>
-        </Paper>
+        /><br/>
+        <Typography variant="h5" gutterBottom>
+          Global Configurations
+        </Typography>
+        <Button
+          variant='contained'
+          onClick={() => this.setState({ initCme: !initCme })}
+        >
+          Push Global Configurations
+        </Button>
+        <CorDialog />
+        <Translations />
+        <Templates />
         <Phones cutSheet={cutSheet} cme={this.cme} />
         {
           update ? 
@@ -114,7 +116,5 @@ class Comp extends Component<any, any> {
     );
   }
 }
-
 const App = withStyles(styles)(Comp);
-
 export { App }
