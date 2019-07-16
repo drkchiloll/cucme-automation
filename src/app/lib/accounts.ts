@@ -2,6 +2,7 @@ import * as Promise from 'bluebird';
 import * as lokistore from 'lokijs';
 import { LokiFsAdapter, Collection } from 'lokijs'
 import { join } from 'path';
+import { EventEmitter } from 'events';
 import * as bcrypt from 'bcryptjs';
 
 export interface ISysAccount {
@@ -16,7 +17,8 @@ export interface ISysAccount {
 
 export class SysAccount {
   public db: lokistore;
-  private collection: Collection;
+  public collection: Collection;
+  public changes = new EventEmitter();
   private accounts: ISysAccount;
   constructor() {}
   init(dbName): Promise<any> {
@@ -33,6 +35,7 @@ export class SysAccount {
             if(!this.collection) {
               this.collection = this.db.addCollection(dbName);
             }
+            this.collection.disableChangesApi = false;
             return resolve(this.collection);
           }
         }
@@ -86,8 +89,9 @@ export class SysAccount {
   get(query?: any): Promise<ISysAccount|ISysAccount[]> {
     return new Promise(resolve => {
       if(!query) {
-        let records: Collection = this.db.getCollection('accounts');
-        // console.log(records)
+        let records: Collection = JSON.parse(
+          JSON.stringify(this.db.getCollection('accounts'))
+        )
         return Promise.map(records.data, (record: any) => {
           let password = this.getLocalAccounts(record['$loki']).password;
           record.password = password;
@@ -101,79 +105,9 @@ export class SysAccount {
     })
   }
   modify(record: ISysAccount) {
+    this.changes.emit('changed', record);
     return Promise.resolve(
       this.collection.update(record)
     )
-  }
-}
-
-export interface Account {
-  host: string;
-  username: string;
-  password: string;
-  selected: boolean;
-  name: string;
-  email?: string;
-  room?: {
-    id: string;
-    sipAddress: string;
-  }
-}
-
-export class Accounts {
-  accounts: Account[];
-
-  static get() {
-    let accounts = JSON.parse(localStorage.getItem('accounts'));
-    if(!accounts || accounts.length === 0) {
-      accounts = [];
-      accounts.push({
-        name: 'New', host:'10.10.10.10',username:'admin',password:'adming',
-        selected: true
-      });
-      localStorage.setItem('accounts', JSON.stringify(accounts));
-      return JSON.parse(localStorage.getItem('accounts'));
-    } else {
-      return accounts;
-    }
-  };
-
-  static update(account: Account) {
-    let accounts: Account[] = this.get();
-    let acctIdx = accounts.findIndex(a => a.name == account.name);
-    accounts[acctIdx] = account;
-    this.save(accounts);
-    return { accounts, account };
-  }
-
-  static save(accounts: Account[]): void {
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-  };
-
-  static newaccount(): Account {
-    return {
-      name: '', host: '', username: '', password: '', selected: true
-    };
-  };
-
-  static generateInput(account) {
-    return [{
-      name: 'name',
-      value: account.name,
-      label: 'Codec Name'
-    }, {
-      name: 'host',
-      value: account.host,
-      label: 'Codec or Touch10'
-    }, {
-      name: 'username',
-      value: account.username,
-      label: 'Hostname/IP Address'
-    }, {
-      name: 'password',
-      value: account.password,
-      label: 'Password',
-      type: 'password'
-    }];
   }
 }

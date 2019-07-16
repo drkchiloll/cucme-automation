@@ -31,6 +31,9 @@ const styles = (theme: Theme) => createStyles({
   },
   label: {
     color: 'red' 
+  },
+  selected: {
+    backgroundColor: colors.blueGrey[300]
   }
 })
 class AcctList extends Component<any, any> {
@@ -60,7 +63,7 @@ class AcctList extends Component<any, any> {
         >
           <BottomNavigationAction
             className={classes.root}
-            label={<div style={{color: blueGrey[300]}}>Add Account</div>}
+            label={<div style={{color: blueGrey[300]}}>Add </div>}
             icon={
               <GroupAdd fontSize='large' className={classes.addIcon} />
             }

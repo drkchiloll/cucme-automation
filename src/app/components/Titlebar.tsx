@@ -67,6 +67,7 @@ class Title extends Component<any, any> {
               accountDb={this.props.accountDb}
               addEmptyAccount={this.props.addNewAccount}
               updateAccount={this.props.updateAccount}
+              accountChange={this.props.accountChange}
             />
         }
       </>

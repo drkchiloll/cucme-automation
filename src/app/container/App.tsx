@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import * as Promise from 'bluebird';
 import { ipcRenderer } from 'electron';
 import {
   CorDialog, Phones, Templates,
@@ -32,10 +33,7 @@ class Comp extends Component<any, any> {
     }
   }
   componentDidMount() {
-    ipcRenderer.on('update', () => {
-      this.setState({ update: true });
-      console.log('I am trying to update you');
-    });
+    ipcRenderer.on('update', () => this.setState({ update: true }));
     return this.accounts.init('accounts').then(({ data }) => {
       if(data.length === 0) {
         return this.accounts.add({
@@ -46,6 +44,13 @@ class Comp extends Component<any, any> {
           selected: true
         })
       }
+      this.accounts.changes.on('changes', ({ prop, value, index }) => {
+        console.log(prop);
+        const { accounts } = this.state;
+        let account = accounts[index];
+        account[prop] = value;
+        this.setState({ accounts });
+      })
       return;
     }).then(() => this.getAccounts());
   }
@@ -74,15 +79,23 @@ class Comp extends Component<any, any> {
       cutSheet
     }))
   }
+  update = accounts => Promise.each(accounts, (a: any) =>
+    this.accounts.modify(a)
+  ).then(() => this.setState({ accounts }));
   render() {
-    let { update, initCme, cutSheet } = this.state;
-    const { classes } = this.props;
+    let { accounts, update, initCme, cutSheet } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
         <TitleBar
           importFile={this.handleCsvImport}
-          accounts={this.state.accounts}
+          accounts={accounts}
           updateAccounts={this.getAccounts}
+          updateAccount={accounts => this.update(accounts)}
+          accountChange={({prop, value, index}) => {
+            const account = accounts[index];
+            account[prop] = value;
+            this.setState({ accounts })
+          }}
           accountDb={this.accounts}
           addNewAccount={this.addEmptyAccount}
         /><br/>
