@@ -14,6 +14,8 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import createStyles from '@material-ui/styles/createStyles';
 import { GroupAdd, Delete } from '@material-ui/icons';
 
+const { blueGrey } = colors;
+
 const styles = (theme: Theme) => createStyles({
   root: {
     color: 'red'
@@ -58,11 +60,9 @@ class AcctList extends Component<any, any> {
         >
           <BottomNavigationAction
             className={classes.root}
-            label='Add Account'
+            label={<div style={{color: blueGrey[300]}}>Add Account</div>}
             icon={
-              <Tooltip title='Add Account'>
-                <GroupAdd fontSize='large' className={classes.addIcon} />
-              </Tooltip>
+              <GroupAdd fontSize='large' className={classes.addIcon} />
             }
             onClick={this.props.addNewAccount}
           />
