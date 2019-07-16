@@ -10,6 +10,13 @@ import { sshFactory } from './cme-ssh';
 import * as csv from 'csvtojson';
 const cmeService = cmeXmlFactory();
 
+type Device = {
+  name: string;
+  host: string;
+  username: string;
+  password: string;
+}
+
 const hosts = [{
   host: '10.232.0.253',
   user: 'admin',
@@ -20,21 +27,29 @@ const hosts = [{
   pass: 'C1sco12345'
 }]
 export class Api {
+  public device: Device;
   public request: AxiosInstance;
   public csvData: any;
   public sh: Client;
-  constructor() {
+  constructor(device: Device) {
+    this.device = device;
+    this.updateReq(device);
+  }
+  updateReq(device: Device) {
     this.request = axios.create({
-      baseURL: `http://${hosts[1].host}/ios_xml_app/cme`,
+      baseURL: `http://${device.host}/ios_xml_app/cme`,
       auth: {
-        username: hosts[1].user,
-        password: hosts[1].pass
+        username: device.username,
+        password: device.password
       },
       headers: {
         'Content-Type': 'text/xml',
         Accept: 'text/xml'
       }
     })
+  }
+  updateDevice(device: Device) {
+    this.device = device;
   }
   initSSH() {
     return sshFactory.est({
