@@ -7,18 +7,10 @@ import {
   DialogActions,
   Grid,
   TextField,
-  Button,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  BottomNavigation,
-  BottomNavigationAction,
-  colors
+  Button
 } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import createStyles from '@material-ui/styles/createStyles';
-import { GroupAdd, Delete } from '@material-ui/icons';
 import { AccountList } from './';
 
 const styles = (theme: Theme) => createStyles({
@@ -32,7 +24,7 @@ const styles = (theme: Theme) => createStyles({
     maxHeight: 400
   },
   textSpacing: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(1)
   }
 })
 
@@ -48,6 +40,22 @@ class Acct extends Component<any, any> {
     this.setState({ selectedAccount })
   }
   selectAccount = item => this.setState({ selectedAccount: item })
+  genForm = () => {
+    const { classes, accounts } = this.props;
+    const selectedAccount = accounts.findIndex(a => a.selected);
+    let account = accounts[selectedAccount]   
+    const acctProps = ['name', 'host', 'username', 'password'];
+    return acctProps.map((p, i) =>
+      <Grid item sm={12} key={`form_${i}`} className={classes.textSpacing}>
+        <TextField
+          fullWidth
+          name={p}
+          label={p.substring(0,1).toUpperCase() + p.substring(1)}
+          value={account[p]}
+        />
+      </Grid>
+    )
+  }
   render() {
     const { classes, accounts } = this.props;
     const selectedAccount = accounts.findIndex(a => a.selected);
@@ -75,39 +83,7 @@ class Acct extends Component<any, any> {
                 addNewAccount={this.props.addEmptyAccount} />
             </Grid>
             <Grid item sm={7}>
-              <Grid item sm={12}>
-                <TextField
-                  fullWidth
-                  label='Name'
-                  value={account.name}
-                />
-              </Grid>
-              <br/>
-              <Grid item sm={12}>
-                <TextField
-                  fullWidth
-                  label='CME IP'
-                  value={account.host}
-                />
-              </Grid>
-              <br/>
-              <Grid item sm={12}>
-                <TextField
-                  fullWidth
-                  label='username'
-                  value={account.username}
-                />
-              </Grid>
-              <br/>
-              <Grid item sm={12}>
-                <TextField
-                  fullWidth
-                  label='password'
-                  value={account.password}
-                  type='password'
-                />
-              </Grid>
-              <br/>
+              { this.genForm() }
             </Grid>
           </Grid>
         </DialogContent>
