@@ -6,7 +6,7 @@ import {
   CorDialog, Phones, Templates,
   Translations, Updates, TitleBar
 } from '../components';
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Typography, colors } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
 import { Api, SysAccount } from '../lib';
@@ -17,6 +17,10 @@ const styles = theme => createStyles({
     marginTop: 5,
     marginLeft: 5,
     marginBottom: 5
+  },
+  btn: {
+    backgroundColor: colors.blueGrey[300],
+    color: 'white'
   }
 });
 
@@ -45,7 +49,6 @@ class Comp extends Component<any, any> {
         })
       }
       this.accounts.changes.on('changes', ({ prop, value, index }) => {
-        console.log(prop);
         const { accounts } = this.state;
         let account = accounts[index];
         account[prop] = value;
@@ -103,6 +106,7 @@ class Comp extends Component<any, any> {
           Global Configurations
         </Typography>
         <Button
+          className={this.props.classes.btn}
           variant='contained'
           onClick={() => this.setState({ initCme: !initCme })}
         >
