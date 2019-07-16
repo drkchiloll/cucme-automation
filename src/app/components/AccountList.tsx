@@ -36,6 +36,7 @@ const styles = (theme: Theme) => createStyles({
     backgroundColor: colors.blueGrey[300]
   }
 })
+
 class AcctList extends Component<any, any> {
   render() {
     const { accounts, classes, activeAccount } = this.props;
