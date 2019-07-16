@@ -41,6 +41,7 @@ class Title extends Component<any, any> {
             type="file"
             onChange={(e) => {
               const files: any = document.getElementById('csv-file');
+              if(!files.files) return;
               this.props.importFile(files.files[0]);
             }}
           />
@@ -63,6 +64,9 @@ class Title extends Component<any, any> {
             <Accounts
               close={() => this.setState({ addAccount: false })}
               accounts={this.props.accounts}
+              accountDb={this.props.accountDb}
+              addEmptyAccount={this.props.addNewAccount}
+              updateAccount={this.props.updateAccount}
             />
         }
       </>
