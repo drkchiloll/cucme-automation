@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { Phones, Updates, CmeGlobals } from '../components';
+import { TitleBar, Phones, Updates, CmeGlobals } from '../components';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { Api, SysAccount } from '../lib';
 
@@ -59,6 +59,11 @@ class Comp extends Component<any, any> {
     let { update, initCme, cutSheet } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
+        <TitleBar
+          importFile={this.handleCsvImport}
+          cme={this.cme}
+          accountDb={this.accounts}
+        /><br/>
         <CmeGlobals 
           cme={this.cme}
           initCme={initCme}
