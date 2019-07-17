@@ -48,12 +48,6 @@ class Comp extends Component<any, any> {
           selected: true
         })
       }
-      this.accounts.changes.on('changes', ({ prop, value, index }) => {
-        const { accounts } = this.state;
-        let account = accounts[index];
-        account[prop] = value;
-        this.setState({ accounts });
-      })
       return;
     }).then(() => this.getAccounts());
   }
@@ -67,24 +61,11 @@ class Comp extends Component<any, any> {
       password: account.password
     });
   })
-  addEmptyAccount = () => {
-    let { accounts } = this.state;
-    let account = {
-      name: 'NEW', host: '', username: '', password: '', selected: true
-    };
-    let seleIdx = accounts.findIndex(a => a.selected);
-    accounts[seleIdx].selected = false;
-    accounts.push(account);
-    this.setState({ account });
-  }
   handleCsvImport = csv => {
     this.cme.parseCsv(csv).then(cutSheet => this.setState({
       cutSheet
     }))
   }
-  update = accounts => Promise.each(accounts, (a: any) =>
-    this.accounts.modify(a)
-  ).then(() => this.setState({ accounts }));
   render() {
     let { update, initCme, cutSheet } = this.state;
     return (
