@@ -205,6 +205,25 @@ export class Api {
       return data;
     }), { concurrency: 3 });
   }
+  deployAnaStations(devices: any) {
+    return Promise.map(devices, (device: any) => {
+      let config = [
+        `voice-port ${device.port}`,
+        `description ${device.name}`,
+        `station-id name ${device.name}`,
+        `station-id number ${device.number}`,
+        `caller-id enable`,
+        `dial-peer voice ${device.number} pots`,
+        `corlist incoming ${device.corList}`,
+        `destination-pattern ^${device.number}$`,
+        `port ${device.port}`
+      ];
+      return cmeService.genXml({ method: 'cli', data: config })
+    }).map(xml => this.request.post('/', xml).then(({ data }) => {
+      console.log(data);
+      return data;
+    }), { concurrency: 3 })
+  }
 }
 
 interface SipDn {
