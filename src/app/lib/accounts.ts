@@ -50,8 +50,13 @@ export class SysAccount {
   private saveLocal(accounts) {
     localStorage.setItem('accounts', JSON.stringify(accounts));
   }
+  initStore() {
+    localStorage.setItem("accounts", "[]");
+    return [];
+  }
   private storePass({ id, password }) {
-    const accounts: any = JSON.parse(localStorage.getItem('accounts'));
+    let accounts: any = JSON.parse(localStorage.getItem('accounts'));
+    if(!accounts) accounts = this.initStore()
     if(accounts.find(a => a.id === id)) return;
     else {
       accounts.push({ id, password });
@@ -59,7 +64,8 @@ export class SysAccount {
     }
   }
   private getLocalAccounts(id?: string) {
-    const accounts: any = JSON.parse(localStorage.getItem('accounts'));
+    let accounts: any = JSON.parse(localStorage.getItem('accounts'));
+    if(!accounts) accounts = this.initStore();
     if(id) {
       return accounts.find(account => account.id === id);
     } else {
