@@ -33,7 +33,6 @@ export class Api {
   public sh: Client;
   constructor(device: Device) {
     this.device = device;
-    this.updateReq(device);
   }
   updateReq(device: Device) {
     this.request = axios.create({
@@ -50,18 +49,19 @@ export class Api {
   }
   updateDevice(device: Device) {
     this.device = device;
+    this.updateReq(device)
   }
   initSSH() {
     return sshFactory.est({
-      host: hosts[1].host,
-      user: hosts[1].user,
-      pass: hosts[1].pass
+      host: this.device.host,
+      user: this.device.username,
+      pass: this.device.password
     });
   }
   apiEnable(ssh) {
     return sshFactory.enableApi({
-      xmlUser: 'developer',
-      xmlPassword: 'C1sco12345',
+      xmlUser: this.device.username,
+      xmlPassword: this.device.password,
       ssh
     })
   }

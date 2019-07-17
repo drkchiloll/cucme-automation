@@ -35,7 +35,6 @@ export class SysAccount {
             if(!this.collection) {
               this.collection = this.db.addCollection(dbName);
             }
-            this.collection.disableChangesApi = false;
             return resolve(this.collection);
           }
         }

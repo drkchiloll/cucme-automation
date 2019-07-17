@@ -86,21 +86,13 @@ class Comp extends Component<any, any> {
     this.accounts.modify(a)
   ).then(() => this.setState({ accounts }));
   render() {
-    let { accounts, update, initCme, cutSheet } = this.state;
+    let { update, initCme, cutSheet } = this.state;
     return (
       <div style={{ marginLeft: '15px' }}>
         <TitleBar
           importFile={this.handleCsvImport}
-          accounts={accounts}
-          updateAccounts={this.getAccounts}
-          updateAccount={accounts => this.update(accounts)}
-          accountChange={({prop, value, index}) => {
-            const account = accounts[index];
-            account[prop] = value;
-            this.setState({ accounts })
-          }}
+          cme={this.cme}
           accountDb={this.accounts}
-          addNewAccount={this.addEmptyAccount}
         /><br/>
         <Typography variant="h5" gutterBottom>
           Global Configurations

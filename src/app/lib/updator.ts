@@ -5,7 +5,7 @@ import * as Promise from 'bluebird';
 import * as moment from 'moment';
 
 export class Updator {
-  private GH_TOKEN = '8cb9fc73fe31907aa9d12fd487b051d75b1c8e52';
+  private GH_TOKEN = 'afc6e35a8efc0e1c648138913513f576853fe989';
   private GH_URL = 'https://api.github.com/repos/drkchiloll/'
   private GH_REPO = 'cucme-updates';
   public readonly ROOT_DIR = join(__dirname);

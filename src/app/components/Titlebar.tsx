@@ -62,12 +62,9 @@ class Title extends Component<any, any> {
         {
           this.state.addAccount &&
             <Accounts
+              cme={this.props.cme}
               close={() => this.setState({ addAccount: false })}
-              accounts={this.props.accounts}
               accountDb={this.props.accountDb}
-              addEmptyAccount={this.props.addNewAccount}
-              updateAccount={this.props.updateAccount}
-              accountChange={this.props.accountChange}
             />
         }
       </>

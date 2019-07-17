@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import * as Promise from 'bluebird';
 import {
   Dialog,
   DialogTitle,
@@ -33,40 +34,38 @@ class Acct extends Component<any, any> {
     super(props);
     this.state = {
       selectedAccount: 0,
-      uiAccount: {
-        name: '',
-        host: '',
-        username: '',
-        password: ''
-      }
+      accounts: []
     }
   }
   componentWillMount() {
-    const selectedAccount = this.props.accounts.findIndex(a => a.selected);
-    this.setState({ selectedAccount })
+    const { accountDb } = this.props;
+    accountDb.get().then(accounts => {
+      const selectedAccount = accounts.findIndex(a => a.selected);
+      this.setState({ accounts, selectedAccount })
+    });
   }
   selectAccount = item => {
-    const { accounts } = this.props;
+    const { accounts } = this.state;
     accounts.forEach(a => a.selected = false);
     accounts[item].selected = true;
-    this.props.updateAccount(accounts);
+    this.props.cme.updateDevice(accounts[item]);
+    this.setState({ accounts, selectedAccount: item});
+    return Promise.each(accounts, (a: any) =>
+      this.props.accountDb.modify(a) 
+    )
   }
-  handleNewAccountChange = (e) => {
-    const { accounts } = this.props;
+  handleNewAccountChange = e => {
+    const { accounts } = this.state;
     const index = accounts.findIndex(a => a.selected);
-    this.props.accountDb.changes.emit('changes', {
-      prop: e.target.name,
-      value: e.target.value,
-      index
+    accounts[index][e.target.name] = e.target.value;
+    this.setState({
+      selectedAccount: index,
+      accounts
     })
-    // this.props.accountChange({
-    //   prop: e.target.name,
-    //   value: e.target.value,
-    //   index
-    // });
   }
   genForm = () => {
-    const { classes, accounts } = this.props;
+    const { accounts } = this.state
+    const { classes } = this.props;
     const selectedAccount = accounts.findIndex(a => a.selected);
     let account = accounts[selectedAccount]   
     const acctProps = ['name', 'host', 'username', 'password'];
@@ -74,6 +73,7 @@ class Acct extends Component<any, any> {
       <Grid item sm={12} key={`form_${i}`} className={classes.textSpacing}>
         <TextField
           fullWidth
+          autoFocus
           name={p}
           label={p.substring(0,1).toUpperCase() + p.substring(1)}
           value={account[p]}
@@ -83,9 +83,22 @@ class Acct extends Component<any, any> {
       </Grid>
     )
   }
+  addNewAccount = () => {
+    const { accounts } = this.state;
+    accounts.push({
+      name: '',
+      host: '',
+      username: '',
+      password: ''
+    });
+    accounts.forEach(a => a.selected = false);
+    let selectedAccount = accounts.length - 1;
+    accounts[selectedAccount].selected = true;
+    this.setState({ accounts, selectedAccount });
+  }
   render() {
-    const { classes, accounts } = this.props;
-    const selectedAccount = accounts.findIndex(a => a.selected);
+    const { classes } = this.props;
+    const { accounts, selectedAccount } = this.state;
     let account = accounts[selectedAccount];
     return (
       <Dialog
@@ -107,11 +120,11 @@ class Acct extends Component<any, any> {
                 activeAccount={selectedAccount}
                 account={account}
                 accounts={accounts}
-                addNewAccount={this.props.addEmptyAccount}
+                addNewAccount={this.addNewAccount}
               />
             </Grid>
             <Grid item sm={7}>
-              { this.genForm() }
+              { accounts.length > 0 && this.genForm() }
             </Grid>
           </Grid>
         </DialogContent>

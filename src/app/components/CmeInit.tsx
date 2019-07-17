@@ -2,10 +2,9 @@ import * as React from 'react';
 import { Component } from 'react';
 import {
   Dialog, DialogActions, DialogContent, DialogContentText,
-  DialogTitle, Button, CircularProgress, Slide
+  DialogTitle, Button, CircularProgress
 } from '@material-ui/core';
 import { blueGrey, cyan } from '@material-ui/core/colors';
-import {} from '@material-ui/icons';
 import { Theme, withStyles } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
 import { Client } from 'ssh2';
@@ -37,6 +36,7 @@ export class CmeInitialization extends Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
+      ready: false,
       executing: false,
       success: false,
       messages: []
@@ -69,7 +69,6 @@ export class CmeInitialization extends Component<any, any> {
       <Dialog
         open={this.props.initCme}
         maxWidth={'md'}
-        // TransitionComponent={Transition}
         keepMounted
         onClose={() => {}}
         aria-labelledby="alert-dialog-slide-title"
