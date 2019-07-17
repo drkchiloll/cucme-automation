@@ -13,6 +13,7 @@ import {
 import { withStyles, Theme } from '@material-ui/core/styles';
 import createStyles from '@material-ui/styles/createStyles';
 import { AccountList } from './';
+import { Api } from '../lib';
 
 const styles = (theme: Theme) => createStyles({
   acctDial: {},
@@ -38,10 +39,11 @@ class Acct extends Component<any, any> {
     }
   }
   componentWillMount() {
-    const { accountDb } = this.props;
+    let { accountDb, cme } = this.props;
     accountDb.get().then(accounts => {
       const selectedAccount = accounts.findIndex(a => a.selected);
-      this.setState({ accounts, selectedAccount })
+      this.setState({ accounts, selectedAccount });
+      cme = new Api(accounts[selectedAccount]);
     });
   }
   selectAccount = item => {
@@ -86,7 +88,7 @@ class Acct extends Component<any, any> {
   addNewAccount = () => {
     const { accounts } = this.state;
     accounts.push({
-      name: '',
+      name: 'NEW',
       host: '',
       username: '',
       password: ''
@@ -133,9 +135,10 @@ class Acct extends Component<any, any> {
             variant='contained'
             onClick={() => {
               this.props.accountDb.add(account).then(() => {
-                this.props.accountDb.get().then(accounts =>
-                  this.props.updateAccount({ accounts })
-                )
+                this.props.accountDb.get().then(accounts => {
+                  this.props.cme.device = account;
+                  this.setState({ accounts });
+                })
               })
             }}
           >

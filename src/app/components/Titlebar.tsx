@@ -23,7 +23,7 @@ class Title extends Component<any, any> {
     }
   }
   render() {
-    const { classes } = this.props;
+    const { classes, cme } = this.props;
     return (
       <>
         <AppBar
@@ -62,7 +62,7 @@ class Title extends Component<any, any> {
         {
           this.state.addAccount &&
             <Accounts
-              cme={this.props.cme}
+              cme={cme}
               close={() => this.setState({ addAccount: false })}
               accountDb={this.props.accountDb}
             />
