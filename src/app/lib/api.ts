@@ -17,15 +17,6 @@ type Device = {
   password: string;
 }
 
-const hosts = [{
-  host: '10.232.0.253',
-  user: 'admin',
-  pass: 'Il2w@a!'
-}, {
-  host: '10.10.20.48',
-  user: 'developer',
-  pass: 'C1sco12345'
-}]
 export class Api {
   public device: Device;
   public request: AxiosInstance;
