@@ -50,7 +50,9 @@ export class PhonesImport extends React.Component<any, any> {
       dnRunner: false,
       dnSuccess: false,
       devRunner: false,
-      devSuccess: false
+      devSuccess: false,
+      anaRunner: false,
+      anaSuccess: false
     };
   }
   componentWillMount() {
@@ -86,8 +88,16 @@ export class PhonesImport extends React.Component<any, any> {
       this.setState({ devRunner: false, devSuccess: true })
     )
   }
+  anaInit = () => {
+    const { analog } = this.state;
+    const { cme } = this.props;
+    this.setState({ anaRunner: true });
+    return cme.deployAnaStations(analog).then(() =>
+      this.setState({ anaRunner: false, anaSuccess: true })
+    )
+  }
   render() {
-    const { dns, devices, analog, dnRunner, devRunner } = this.state;
+    const { dns, devices, analog, dnRunner, devRunner, anaRunner } = this.state;
     return (
       <>
         <ExpansionPanel>
@@ -226,6 +236,27 @@ export class PhonesImport extends React.Component<any, any> {
                   ]}
                   data={analog}
                 />
+              </Grid>
+              <Grid sm={4} item>
+                <div className={this.props.classes.wrapper}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    disabled={devRunner}
+                    className={this.props.classes.buttonSuccess}
+                    onClick={this.devInit}
+                  >
+                    Deploy Ana Stations 
+                  </Button>
+                  {
+                    anaRunner &&
+                      <CircularProgress 
+                        size={28}
+                        thickness={5}
+                        className={this.props.classes.smButtonProgress}
+                      />
+                  }
+                </div>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
