@@ -33,6 +33,7 @@ export class Api {
   public sh: Client;
   constructor(device: Device) {
     this.device = device;
+    this.updateReq(device);
   }
   updateReq(device: Device) {
     this.request = axios.create({
@@ -131,7 +132,7 @@ export class Api {
      * The API Needs to Enabled
      * I could use SSH to push this config
      */
-    return cmeService.createGlobals().then(xmls =>
+    return cmeService.createGlobals(this.device).then(xmls =>
       Promise.each(xmls, xml => this.request.post(
         '/', xml
       ).then(({ data }) => {

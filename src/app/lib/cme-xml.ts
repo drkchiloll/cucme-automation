@@ -38,12 +38,11 @@ export const cmeXmlFactory = () => {
         data: []
       });
     },
-    createGlobals() {
+    createGlobals(device: any) {
       const {
         codecs,
         voip,
         presence,
-        voiceRegGlobal,
         templates,
         cor
       } = this.voiceGlobal;
@@ -74,6 +73,7 @@ export const cmeXmlFactory = () => {
           }).then(() => a)
         }, [])
       ]).then(([c1, c2, c3, c4]) => {
+        const voiRegGlobals = this.genVoRegGlobal(device.host);
         const model = [{
           func: 'Codec Use',
           data: c1
@@ -85,7 +85,7 @@ export const cmeXmlFactory = () => {
           data: presence.cmds
         }, {
           func: 'Global Voice Register Subsystem',
-          data: voiceRegGlobal.cmds
+          data: voiRegGlobals 
         }, {
           func: 'Voice Register Templates',
           data: c2
@@ -113,6 +113,22 @@ export const cmeXmlFactory = () => {
       });
       console.log(xml);
       return xml;
+    },
+    genVoRegGlobal(device) {
+      return [
+        `voice register global`,
+        `mode cme`,
+        `source-address ${device} port 5060`,
+        'timeout interdigit 5',
+        'max-dn 500',
+        'max-pool 250',
+        'authenticate register',
+        'authenticate realm all',
+        'hold-alert',
+        'voicemail 7429',
+        'tftp-path flash:',
+        'file text'
+      ]
     },
     voiceGlobal: {
       codecs: [{
