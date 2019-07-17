@@ -5,10 +5,8 @@ import {
   DialogTitle, Button, CircularProgress
 } from '@material-ui/core';
 import { blueGrey, cyan } from '@material-ui/core/colors';
-import { Theme, withStyles } from '@material-ui/core/styles';
-import { createStyles } from '@material-ui/styles';
+import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 import { Client } from 'ssh2';
-import { Api } from '../lib/api';
 
 const styles = (theme: Theme) => createStyles({
   root: { display: 'flex', alignItems: 'center' },
@@ -43,8 +41,8 @@ export class CmeInitialization extends Component<any, any> {
     }
   }
   runInit = () => {
+    const { templates, cor, cme } = this.props;
     this.setState({ executing: true })
-    const cme: Api = this.props.cme;
     return cme.initSSH().then((ssh: Client) => {
       ssh.addListener('configpush', res => {
         const { messages } = this.state;

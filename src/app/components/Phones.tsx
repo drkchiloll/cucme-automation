@@ -5,8 +5,8 @@ import {
   Grid, ExpansionPanel, ExpansionPanelDetails,
   ExpansionPanelSummary, Button, CircularProgress
 } from '@material-ui/core';
-import { withStyles, Theme } from '@material-ui/core/styles';
-import { createStyles } from '@material-ui/styles';
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+// import { createStyles } from '@material-ui/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { blueGrey, cyan } from '@material-ui/core/colors';
 
@@ -18,9 +18,9 @@ const styles = (theme: Theme) => createStyles({
   },
   buttonSuccess: {
     backgroundColor: blueGrey[200],
-    '&:hover': {
-      backgroundColor: blueGrey[300]
-    }
+    // '&:hover': {
+    //   backgroundColor: blueGrey[300]
+    // }
   },
   buttonProgress: {
     color: cyan[300],
