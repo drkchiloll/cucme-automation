@@ -5,8 +5,8 @@ import * as Promise from 'bluebird';
 import * as moment from 'moment';
 
 export class Updator {
-  private GH_TOKEN = 'afc6e35a8efc0e1c648138913513f576853fe989';
-  private GH_URL = 'https://api.github.com/repos/drkchiloll/'
+  private rand = 'afc6e35a8efc0e1c648138913513f576853fe989';
+  private GH_URL = 'https://api.github.com/repos/drkchiloll/';
   private GH_REPO = 'cucme-updates';
   public readonly ROOT_DIR = join(__dirname);
   public dateFormat = 'MM/DD/YYYY h:mm:a';
@@ -15,7 +15,7 @@ export class Updator {
     this.requestor = axios.create({
       baseURL: this.GH_URL + this.GH_REPO,
       headers: {
-        Authorization: `Bearer ${this.GH_TOKEN}`,
+        Authorization: `Bearer ${this.rand}`,
         Accept: 'application/json'
       }
     });
