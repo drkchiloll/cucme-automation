@@ -2,19 +2,43 @@ import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import { TitleBar, Phones, Updates, CmeGlobals } from '../components';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import { Api, SysAccount } from '../lib';
+import {
+  withStyles, createStyles, createMuiTheme
+} from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles'
+import { Api, SysAccount, GcTextToSpeech } from '../lib';
+import {
+  Button,
+  TextField,
+  colors
+} from '@material-ui/core';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: colors.blueGrey
+  },
+});
 const styles = theme => createStyles({
   root: {
     marginTop: 5,
     marginLeft: 5,
     marginBottom: 5
+  },
+  textField: {
+    backgroundColor: colors.blueGrey[100],
+    underline: {
+      borderBottom: colors.blueGrey[200]
+    }
+  },
+  btn: {
+    backgroundColor: colors.blueGrey[300],
+    color: 'white'
   }
 });
 
 class Comp extends Component<any, any> {
   public cme: Api;
+  public tts: GcTextToSpeech;
   public accounts = new SysAccount();
   constructor(props) {
     super(props);
@@ -22,10 +46,12 @@ class Comp extends Component<any, any> {
       cutSheet: null,
       update: false,
       initCme: false,
-      accounts: []
+      accounts: [],
+      txtSpeech: ''
     }
   }
   componentDidMount() {
+    this.tts = new GcTextToSpeech();
     ipcRenderer.on('update', () => this.setState({ update: true }));
     return this.accounts.init('accounts').then(({ data }) => {
       if(data.length === 0) {
@@ -56,32 +82,61 @@ class Comp extends Component<any, any> {
     }))
   }
   render() {
-    let { update, initCme, cutSheet } = this.state;
+    const { classes } = this.props;
+    let { update, initCme, cutSheet, txtSpeech } = this.state;
     return (
-      <div style={{ marginLeft: '15px' }}>
-        <TitleBar
-          importFile={this.handleCsvImport}
-          cme={this.cme}
-          accountDb={this.accounts}
-        /><br/>
-        <CmeGlobals 
-          cme={this.cme}
-          initCme={initCme}
-          closeInit={() => this.setState({ initCme: false })}
-          toggleInit={() => this.setState({ initCme: !initCme })}
-        />
-        <Phones cutSheet={cutSheet} cme={this.cme} />
-        {
-          update ? 
-            <Updates
-              update={update}
-              close={() => this.setState({ update: false })}
-            />:
-            <></>
-        }
-      </div>
+      <ThemeProvider theme={theme}>
+        <div style={{ marginLeft: '15px' }}>
+          <TitleBar
+            importFile={this.handleCsvImport}
+            cme={this.cme}
+            accountDb={this.accounts}
+          /><br/>
+          <CmeGlobals 
+            cme={this.cme}
+            initCme={initCme}
+            closeInit={() => this.setState({ initCme: false })}
+            toggleInit={() => this.setState({ initCme: !initCme })}
+          />
+          <Phones cutSheet={cutSheet} cme={this.cme} />
+          {
+            update ? 
+              <Updates
+                update={update}
+                close={() => this.setState({ update: false })}
+              />:
+              <></>
+          }
+          <TextField
+            id="filled-multiline-static"
+            label={<div style={{color: 'black'}}>Enter Text</div>}
+            name='txtSpeech'
+            multiline
+            rows="4"
+            className={classes.textField}
+            margin="normal"
+            variant="filled"
+            value={txtSpeech}
+            fullWidth
+            onChange={this.handleTxtChange}
+          />
+          <Button
+            className={classes.btn}
+            color='primary'
+            variant='contained'
+            onClick={() => {
+              this.tts.synthesize(txtSpeech).then(() => {
+                this.setState({ txtSpeech: '' });
+              })
+            }}
+          >
+            Convert to Speech
+          </Button>
+        </div>
+      </ThemeProvider>
     );
   }
+  handleTxtChange = e => this.setState({ txtSpeech: e.target.value });
 }
 const App = withStyles(styles)(Comp);
 export { App }
