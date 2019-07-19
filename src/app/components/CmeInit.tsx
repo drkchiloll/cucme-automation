@@ -92,7 +92,9 @@ export class CmeInitialization extends Component<any, any> {
             </code>
             <br/><br/>
             This will also configure other various mechanism such as Presence
-            in order Busy Lamp Fields to work properly for IP Phones ... <br/><br/>
+            in order Busy Lamp Fields to work properly for IP Phones ... Currently
+            it configures Voice Register Global with a source of the Account IP
+            interdigit timeout of 5, max-dn:500,max-pool:250 ... <br/><br/>
             { messages.map((m, i) =>
               <span key={i}><b>{m}</b><br/></span>)
             }
