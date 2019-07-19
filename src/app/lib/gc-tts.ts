@@ -41,7 +41,7 @@ export class GcTextToSpeech {
       effectsProfileId: 'telephony-class-application'
     }
   }
-  synthesize(text: string) {
+  synthesize({text, fileName}) {
     const req: TTSReq = {
       input: { text },
       voice: {
@@ -60,10 +60,11 @@ export class GcTextToSpeech {
     ).then(({ data }) => {
       const { audioContent } = data;
       if(data && data.audioContent) {
+        const filePath = join(__dirname, fileName + '.wav')
         return new Promise(resolve => writeFile(
-          `${join(__dirname, './myFile.wav')}`,
+          filePath,
           audioContent,
-          { encoding: 'base64' }, (e) => resolve()
+          { encoding: 'base64' }, (e) => resolve(filePath)
         ))  
       }
     }).catch(console.log)
