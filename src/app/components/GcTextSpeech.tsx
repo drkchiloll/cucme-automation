@@ -33,8 +33,8 @@ class GCTTS extends Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
-      fileName: null,
-      txtSpeech: null,
+      fileName: '',
+      txtSpeech: '',
       fileDownload: ''
     };
   }
@@ -63,58 +63,58 @@ class GCTTS extends Component<any, any> {
         <Typography variant="h5" component="h3">
           GoogleCloud TTS IVR Recorder
         </Typography>
-      <Grid container>
         <Grid container>
-          <Grid item sm={12}>
-            <TextField
-              label={<div style={{color:'black'}}>File Name For Recording</div>}
-              name='fileName'
-              margin='normal'
-              onChange={e => this.setState({ fileName: e.target.value })}
-              fullWidth
-              value={fileName}
-            />
+          <Grid container>
+            <Grid item sm={12}>
+              <TextField
+                label={<div style={{color:'black'}}>File Name For Recording</div>}
+                name='fileName'
+                margin='normal'
+                onChange={e => this.setState({ fileName: e.target.value })}
+                fullWidth
+                value={fileName}
+              />
+            </Grid>
           </Grid>
+          <Grid container>
+            <Grid item sm={12}>
+              <TextField
+                id="filled-multiline-static"
+                label={<div style={{color: 'black'}}>Text To Convert</div>}
+                name='txtSpeech'
+                multiline
+                rows="8"
+                className={classes.textField}
+                margin="normal"
+                variant="filled"
+                value={txtSpeech}
+                fullWidth
+                onChange={this.handleTxtChange}
+              />
+            </Grid>
+          </Grid><br/>
+          <Button
+            className={classes.btn}
+            color='primary'
+            disabled={!fileName || !txtSpeech}
+            variant='contained'
+            onClick={this.convertText}
+          >
+            Convert to Speech
+          </Button>
+          {
+            fileDownload &&
+            <Tooltip title='Download File'>
+              <IconButton
+                href={fileDownload}
+                aria-label='Download File'
+                download
+              >
+                <SaveAlt />
+              </IconButton>
+            </Tooltip>
+          }
         </Grid>
-        <Grid container>
-          <Grid item sm={12}>
-            <TextField
-              id="filled-multiline-static"
-              label={<div style={{color: 'black'}}>Text To Convert</div>}
-              name='txtSpeech'
-              multiline
-              rows="8"
-              className={classes.textField}
-              margin="normal"
-              variant="filled"
-              value={txtSpeech}
-              fullWidth
-              onChange={this.handleTxtChange}
-            />
-          </Grid>
-        </Grid><br/>
-        <Button
-          className={classes.btn}
-          color='primary'
-          disabled={!fileName || !txtSpeech}
-          variant='contained'
-          onClick={this.convertText}
-        >
-          Convert to Speech
-        </Button>
-        {
-          fileDownload &&
-          <Tooltip title='Download File'>
-            <IconButton
-              href={fileDownload}
-              aria-label='Download File'
-              download
-            >
-              <SaveAlt />
-            </IconButton>
-          </Tooltip>
-        }
-      </Grid>
       </Paper>
     )
   }
