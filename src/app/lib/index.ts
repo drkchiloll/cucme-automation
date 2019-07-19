@@ -3,3 +3,4 @@ export { SysAccount } from './accounts';
 export { updateService, Updator } from './updator';
 export { cmeXmlFactory } from './cme-xml';
 export { sshFactory } from './cme-ssh';
+export { GcTextToSpeech } from './gc-tts';
