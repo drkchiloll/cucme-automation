@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { ipcRenderer } from 'electron';
-import { TitleBar, Phones, Updates, CmeGlobals } from '../components';
+import {
+  TitleBar, Phones, Updates, CmeGlobals, GcTextSpeech
+} from '../components';
 import {
   withStyles, createStyles, createMuiTheme
 } from '@material-ui/core/styles';
@@ -104,6 +106,7 @@ class Comp extends Component<any, any> {
             toggleInit={() => this.setState({ initCme: !initCme })}
           />
           <Phones cutSheet={cutSheet} cme={this.cme} />
+          <GcTextSpeech />
           {
             update ? 
               <Updates
@@ -111,52 +114,6 @@ class Comp extends Component<any, any> {
                 close={() => this.setState({ update: false })}
               />:
               <></>
-          }
-          <TextField
-            label={<div style={{color:'black'}}>File Name For Recording</div>}
-            name='fileName'
-            margin='normal'
-            onChange={e => this.setState({ fileName: e.target.value })}
-            value={fileName}
-          />
-          <TextField
-            id="filled-multiline-static"
-            label={<div style={{color: 'black'}}>Enter Text</div>}
-            name='txtSpeech'
-            multiline
-            rows="8"
-            className={classes.textField}
-            margin="normal"
-            variant="filled"
-            value={txtSpeech}
-            fullWidth
-            onChange={this.handleTxtChange}
-          />
-          <Button
-            className={classes.btn}
-            color='primary'
-            disabled={!fileName && !txtSpeech}
-            variant='contained'
-            onClick={() => this.tts.synthesize({
-              text: txtSpeech,
-              fileName
-            }).then((fileDownload) => {
-              this.setState({ txtSpeech: '', fileName: '', fileDownload });
-            })}
-          >
-            Convert to Speech
-          </Button>
-          {
-            fileDownload &&
-            <Tooltip title='Download File'>
-              <IconButton
-                href={fileDownload}
-                aria-label='Download File'
-                download
-              >
-                <SaveAlt />
-              </IconButton>
-            </Tooltip>
           }
         </div>
       </ThemeProvider>

@@ -9,3 +9,4 @@ export { Updates } from './Updator';
 export { Accounts } from './Accounts';
 export { AccountList } from './AccountList';
 export { CmeGlobals } from './CmeGlobals';
+export { GcTextSpeech } from './GcTextSpeech';
