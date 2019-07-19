@@ -132,7 +132,7 @@ class Acct extends Component<any, any> {
         </DialogContent>
         <DialogActions>
           <Button
-            variant='contained'
+            color='primary'
             onClick={() => {
               this.props.accountDb.add(account).then(() => {
                 this.props.accountDb.get().then(accounts => {
@@ -144,7 +144,8 @@ class Acct extends Component<any, any> {
           >
             Save
           </Button>
-          <Button variant='contained'
+          <Button
+            color='primary'
             onClick={this.props.close} 
           >
             Close 
