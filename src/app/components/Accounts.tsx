@@ -43,7 +43,6 @@ class Acct extends Component<any, any> {
     accountDb.get().then(accounts => {
       const selectedAccount = accounts.findIndex(a => a.selected);
       this.setState({ accounts, selectedAccount });
-      cme = new Api(accounts[selectedAccount]);
     });
   }
   selectAccount = item => {

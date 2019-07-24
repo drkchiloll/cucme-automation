@@ -8,13 +8,8 @@ import {
   withStyles, createStyles, createMuiTheme
 } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles'
-import { SaveAlt } from '@material-ui/icons';
 import { Api, SysAccount, GcTextToSpeech } from '../lib';
 import {
-  Button,
-  IconButton,
-  TextField,
-  Tooltip,
   colors
 } from '@material-ui/core';
 
@@ -82,6 +77,7 @@ class Comp extends Component<any, any> {
       username: account.username,
       password: account.password
     });
+    this.forceUpdate();
   })
   handleCsvImport = csv => {
     this.cme.parseCsv(csv).then(cutSheet => this.setState({
