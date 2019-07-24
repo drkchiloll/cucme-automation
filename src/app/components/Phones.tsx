@@ -242,9 +242,9 @@ export class PhonesImport extends React.Component<any, any> {
                   <Button
                     variant='contained'
                     color='primary'
-                    disabled={devRunner}
+                    disabled={anaRunner}
                     className={this.props.classes.buttonSuccess}
-                    onClick={this.devInit}
+                    onClick={this.anaInit}
                   >
                     Deploy Ana Stations 
                   </Button>
