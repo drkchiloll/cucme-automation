@@ -154,14 +154,13 @@ export class Api {
   deployDns(dirNums: any) {
     return Promise.map(dirNums, (dirNum: any) => {
       const config = [
-        `voice register dn ${dirNum.tag}`,
+        `ephone-dn ${dirNum.tag}`,
         `number ${dirNum.number}`,
         `name ${dirNum.name}`,
         `label ${dirNum.label}`,
         `allow watch`,
-        `call-forward b2bua noan 7429 timeout ${dirNum.cfwdtimeout}`,
-        `call-forward b2bua busy 7429`,
-        `mwi`,
+        `call-forward noan 7429 timeout ${dirNum.cfwdtimeout}`,
+        `call-forward busy 7429`,
         `pickup-call any-group`
       ];
       return cmeService.genXml({ method: 'cli', data: config });
@@ -173,18 +172,19 @@ export class Api {
   deployPhones(devices: any) {
     return Promise.map(devices, (device: any) => {
       let config = [
-        `voice register pool ${device.tag}`,
-        `id mac ${device.mac}`,
+        `ephone ${device.tag} dual-phone`,
+        `mac-address ${device.mac}`,
         `type ${device.type}`,
-        `number 1 dn ${device.dn}`,
-        `busy-trigger-per-button ${device.busyTrigger}`,
-        `dtmf-relay ${device.dtmfRelay}`,
-        `no vad`,
+        `button: 1:${device.dn}`,
         `presence call-list`,
         `description ${device.description}`,
         `cor incoming ${device.corList} default`,
-        `template ${device.template}`,
-        `voice-class codec 1`
+        `ephone-template ${device.template}`,
+        `conference drop-mode creator`,
+        `conference add-mode creator`,
+        `conference admin`,
+        `no multicast-moh`,
+        `device-security-mode none`
       ];
       if(device.username && device.password) {
         config.push(
@@ -205,9 +205,9 @@ export class Api {
         `station-id name ${device.name}`,
         `station-id number ${device.number}`,
         `caller-id enable`,
-        `dial-peer voice ${device.number} pots`,
+        `dial-peer voice ${device.dn} pots`,
         `corlist incoming ${device.corList}`,
-        `destination-pattern ^${device.number}$`,
+        `destination-pattern ^${device.dn}$`,
         `port ${device.port}`
       ];
       return cmeService.genXml({ method: 'cli', data: config })
