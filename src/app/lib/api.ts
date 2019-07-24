@@ -96,8 +96,9 @@ export class Api {
             mwi: true,
             cfwd: true,
             cfwdtimeout: 20,
+            corList: 'employee',
             pickupCall: d.pickupCall,
-            pickupGroup: 1
+            pickupGroup: d.pickupGroup || undefined
           };
           a['dns'].push(device);
         }
@@ -159,32 +160,33 @@ export class Api {
         `name ${dirNum.name}`,
         `label ${dirNum.label}`,
         `allow watch`,
-        `call-forward noan 7429 timeout ${dirNum.cfwdtimeout}`,
-        `call-forward busy 7429`,
-        `pickup-call any-group`
+        `call-forward noan 7549 timeout ${dirNum.cfwdtimeout}`,
+        `call-forward busy 7549`,
+        `pickup-call any-group`,
+        `corlist incoming ${dirNum.corList}`
       ];
+      if(dirNum.pickupGroup) config.push(`pickup-group ${dirNum.pickupGroup}`)
       return cmeService.genXml({ method: 'cli', data: config });
     }).map(xml => this.request.post('/', xml).then(({ data }) => {
       console.log(data);
       return;
-    }), { concurrency: 3 })
+    }), { concurrency: 2 })
   }
   deployPhones(devices: any) {
     return Promise.map(devices, (device: any) => {
       let config = [
-        `ephone ${device.tag} dual-phone`,
+        `ephone ${device.tag}`,
         `mac-address ${device.mac}`,
         `type ${device.type}`,
-        `button: 1:${device.dn}`,
         `presence call-list`,
         `description ${device.description}`,
-        `cor incoming ${device.corList} default`,
         `ephone-template ${device.template}`,
         `conference drop-mode creator`,
         `conference add-mode creator`,
         `conference admin`,
         `no multicast-moh`,
-        `device-security-mode none`
+        `device-security-mode none`,
+        `button 1:${device.dn}`
       ];
       if(device.username && device.password) {
         config.push(
@@ -195,7 +197,7 @@ export class Api {
     }).map(xml => this.request.post('/', xml).then(({ data }) => {
       console.log(data);
       return data;
-    }), { concurrency: 3 });
+    }), { concurrency: 2 });
   }
   deployAnaStations(devices: any) {
     return Promise.map(devices, (device: any) => {
